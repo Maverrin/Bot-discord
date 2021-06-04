@@ -14,7 +14,7 @@ client.on('ready', () => {
     // if the bot is actually not connected to the specific server
     if (!client.guilds.cache.has(serverId)){
         console.log('[LOGOUT] Not connected to any server');
-        client.destroy();
+        return client.destroy();
     }
 
     console.log(`[LOGIN] Logged in as ${client.user.tag}`);
@@ -53,21 +53,33 @@ client.on('message', msg => {
     //prevent bot using commands
     if (msg.author.bot) return;
 
+    const authorObject = client.guilds.cache.get(serverId).members.cache.get(msg.author.id);
+    const author = authorObject.nickname || authorObject.user.username;
+
     const mapping = {
-        ping: () => msg.reply(commands.pong()),
-        say : (text) => tryToSend(msg.channel, commands.say(text)),
-        link: (text) => tryToSend(msg.channel, commands.link(text)),
+        ping : () => msg.reply(commands.pong()),
+        say  : (text) => tryToSend(msg.channel, commands.say(text)),
+        link : (text) => tryToSend(msg.channel, commands.link(text)),
+        quote: (pseudo, quotes) => sendEmbedMessage({
+            title      : commands.quote(quotes),
+            description: `*${pseudo[0].toUpperCase() + pseudo.slice(1)}* - Demandé par ${author}`,
+            color      : 0x0099ff,
+            channel    : msg.channel
+        }),
     };
 
     const words = msg.content.split(' ');
-
+    
     const command = words.shift().substr(1);
     const message = words.join(' ');
+    const pseudos = Object.keys(quotes);
     
-    if (!(command in mapping)) return;
+    if (!(command in mapping) && !pseudos.includes(command)) return;
 
     msg.delete();
-    mapping[command](message);
+    // in this context, the command is a pseudo
+    if (pseudos.includes(command)) mapping.quote(command, quotes[command]);
+    if (command in mapping) mapping[command](message);
 });
 
 
@@ -90,13 +102,16 @@ const tryToSend = (channel, text) => {
     channel.send(text);
 };
 const sendEmbedMessage = (data) => {
-    const {title, author, description} = data;
+    const {title, author, description, color, footer} = data;
+    
+    const embed = new Discord.MessageEmbed();
+    if (title) embed.setTitle(title);
+    if (author) embed.setAuthor(author.name, author.iconUrl);
+    if (description) embed.setDescription(description);
+    if (color) embed.setColor(color);
+    if (footer) embed.setFooter(footer);
+    
 
-    const embed = new Discord.MessageEmbed()
-        .setTitle(title)
-        .setAuthor(author.name, author.iconUrl)
-        .setDescription(description);
-
-    const channel = client.channels.cache.get(logChannel);
+    const channel = data.channel || client.channels.cache.get(logChannel);
     channel.send(embed);
 };
