@@ -3,19 +3,16 @@ const Discord = require('discord.js');
 const commands = require('./commands');
 const botConfig = require('./botConfig');
 
-const client = new Discord.Client(botConfig);
+const client = new Discord.Client();
 
-client.on('ready', function () {
-    console.log(`[LOGIN] Logged in as ${client.user.tag}!`);
-
-    //prevent bot using commands
-    if (this.)
-
+client.on('ready', () => {
     // if the bot is actually not connected to the specific server
-    if (this.guilds.cache.has(384349653254275082)){
+    if (client.guilds.cache.has(384349653254275082)){
         console.log('[LOGOUT] Not connected to any server');
-        this.destroy();
+        client.destroy();
     }
+
+    console.log(`[LOGIN] Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', msg => {
@@ -23,8 +20,8 @@ client.on('message', msg => {
 
     const mapping = {
         ping: () => msg.reply(commands.pong()),
-        say : (text) => msg.channel.send(commands.say(text)),
-        link: (text) => msg.channel.send(commands.link(text)),
+        say : (text) => tryToSend(msg.channel, commands.say(text)),
+        link: (text) => tryToSend(msg.channel, commands.link(text)),
     };
 
     const words = msg.content.split(' ');
@@ -38,3 +35,8 @@ client.on('message', msg => {
 });
 
 client.login(process.env.TOKEN);
+
+const tryToSend = (channel, text) => {
+    if (!!text === false) channel.send('You did not send any text, please specify your request.');
+    channel.send(text);
+};
