@@ -20,4 +20,6 @@ To do:
 
 * commande expliquant que la question n en est pas une et qu il faut apprendre a poser une question
 
+* récupérer les annonces de epic games
+
 A translation will be done later.

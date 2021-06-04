@@ -1,6 +1,5 @@
 require('dotenv').config();
 const Discord = require('discord.js');
-
 const commands = require('./commands');
 const botConfig = require('./botConfig');
 
@@ -21,14 +20,8 @@ client.on('message', msg => {
 
     const mapping = {
         ping: () => msg.reply(commands.pong()),
-        say : (text) => {
-            msg.delete();
-            msg.channel.send(commands.say(text));
-        },
-        link: () => {
-            msg.delete();
-            msg.channel.send(commands.say(text));
-        }
+        say : (text) => msg.channel.send(commands.say(text)),
+        link: (text) => msg.channel.send(commands.link(text)),
     };
 
     const words = msg.content.split(' ');
@@ -37,7 +30,7 @@ client.on('message', msg => {
     const message = words.join(' ');
 
     if (!(command in mapping)) return;
-
+    msg.delete();
     mapping[command](message);
 });
 

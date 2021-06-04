@@ -1,13 +1,10 @@
 module.exports = (text) => {
+
+    const firstWord = text.split(' ')[0];
+    console.log(firstWord)
     const mapping = {
-        ping: () => msg.reply(commands.pong()),
-        say: (text) => {
-            msg.delete();
-            msg.channel.send(commands.say(text));
-        },
-        link: () => {
-            msg.delete();
-            msg.channel.send(commands.say(text));
-        }
+        yt: "https://www.youtube.com/channel/UCVo4TMKRmdiMYHdMaPWbPNA"
     }
+
+    return mapping[firstWord];
 };
