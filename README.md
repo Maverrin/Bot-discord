@@ -1,4 +1,4 @@
-# potential-octo-journey [WIP]
+# Bot discord [WIP]
 
 Bot discord for a specific server
 

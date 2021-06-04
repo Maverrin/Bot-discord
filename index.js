@@ -9,8 +9,8 @@ const client = new Discord.Client(botConfig);
 client.on('ready', function () {
     console.log(`[LOGIN] Logged in as ${client.user.tag}!`);
 
-    // if the bot is actually not connected any server
-    if (this.guilds.cache.size <= 0) {
+    // if the bot is actually not connected to the specific server
+    if (this.guilds.cache.has(384349653254275082)){
         console.log('[LOGOUT] Not connected to any server');
         this.destroy();
     }
@@ -22,6 +22,10 @@ client.on('message', msg => {
     const mapping = {
         ping: () => msg.reply(commands.pong()),
         say : (text) => {
+            msg.delete();
+            msg.channel.send(commands.say(text));
+        },
+        link: () => {
             msg.delete();
             msg.channel.send(commands.say(text));
         }
