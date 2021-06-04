@@ -1,21 +1,29 @@
 require('dotenv').config();
 const Discord = require('discord.js');
-const botConfig = require('./botConfig');
-const client = new Discord.Client(botConfig);
+
 const commands = require('./commands');
+const botConfig = require('./botConfig');
 
+const client = new Discord.Client(botConfig);
 
-client.on('ready', () => console.log(`Logged in as ${client.user.tag}!`));
+client.on('ready', function () {
+    console.log(`[LOGIN] Logged in as ${client.user.tag}!`);
+
+    // if the bot is actually not connected any server
+    if (this.guilds.cache.size <= 0) {
+        console.log('[LOGOUT] Not connected to any server');
+        this.destroy();
+    }
+});
 
 client.on('message', msg => {
     if (msg.content[0] !== '!') return;
 
     const mapping = {
         ping: () => msg.reply(commands.pong()),
-        say: (text) => {
+        say : (text) => {
             msg.delete();
             msg.channel.send(commands.say(text));
-            
         }
     };
 
