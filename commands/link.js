@@ -12,8 +12,10 @@ module.exports = (text) => {
         //Unreal Engine channel
         ue: "https://www.youtube.com/channel/UCBobmJyzsJ6Ll7UbfhI4iwQ",
         //online course
-        "online-course": "https://www.unrealengine.com/en-US/onlinelearning-courses",
+        uol: "https://www.unrealengine.com/en-US/onlinelearning-courses",
     }
 
-    return mapping[firstWord];
+    if (firstWord in mapping) return mapping[firstWord];
+
+    return `!link [ ${Object.keys(mapping).toString().replaceAll(","," | ")} ]`;
 };

@@ -8,6 +8,9 @@ const client = new Discord.Client(botConfig);
 client.on('ready', function () {
     console.log(`[LOGIN] Logged in as ${client.user.tag}!`);
 
+    //prevent bot using commands
+    if (this.)
+
     // if the bot is actually not connected to the specific server
     if (this.guilds.cache.has(384349653254275082)){
         console.log('[LOGOUT] Not connected to any server');
