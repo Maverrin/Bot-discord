@@ -8,7 +8,7 @@ To do:
 
 * commande qui permet de creer une annonce de recrutement pour un projet (le bot vient parler en priver et tu suis les etapes de la creation du projet)
 
-* commande qui permet de faire parler le bot 
+* ~commande qui permet de faire parler le bot~ 
 
 * commande qui lache des phrases aleatoire de certaines personnes du serveur 
 

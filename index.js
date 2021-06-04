@@ -1,6 +1,7 @@
 require('dotenv').config();
 const Discord = require('discord.js');
-const client = new Discord.Client();
+const botConfig = require('./botConfig');
+const client = new Discord.Client(botConfig);
 const commands = require('./commands');
 
 
@@ -10,7 +11,12 @@ client.on('message', msg => {
     if (msg.content[0] !== '!') return;
 
     const mapping = {
-        ping: commands.pong,
+        ping: () => msg.reply(commands.pong()),
+        say: (text) => {
+            msg.delete();
+            msg.channel.send(commands.say(text));
+            
+        }
     };
 
     const words = msg.content.split(' ');
@@ -20,7 +26,7 @@ client.on('message', msg => {
 
     if (!(command in mapping)) return;
 
-    msg.reply(mapping[command](message));
+    mapping[command](message);
 });
 
 client.login(process.env.TOKEN);
