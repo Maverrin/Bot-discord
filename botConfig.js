@@ -1,9 +1,7 @@
 module.exports = {
-    presence: {
-        activity: {
-            name: "7",
-        }
+    ws: { 
+        intents: 'GUILD_PRESENCES' 
     }
-}
+};
 
 
