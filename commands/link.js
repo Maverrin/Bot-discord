@@ -13,6 +13,8 @@ module.exports = (text) => {
         ue    : 'https://www.youtube.com/channel/UCBobmJyzsJ6Ll7UbfhI4iwQ',
         //online course
         uol   : 'https://www.unrealengine.com/en-US/onlinelearning-courses',
+        //don't ask to ask
+        a2a: "https://dontasktoask.com/fr/"
     };
 
     if (firstWord in mapping) return mapping[firstWord];

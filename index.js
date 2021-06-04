@@ -3,9 +3,10 @@ const Discord = require('discord.js');
 const commands = require('./commands');
 const botConfig = require('./botConfig');
 
-const client = new Discord.Client(botConfig);
 
+const client = new Discord.Client(botConfig);
 const serverId = '384349653254275082';
+const logChannel = '835143486176362527';
 
 client.on('ready', () => {
     // if the bot is actually not connected to the specific server
@@ -19,10 +20,33 @@ client.on('ready', () => {
     updateClientActivity();
 });
 
+client.on('messageDelete', msg => {
+    const embed = new Discord.MessageEmbed()
+    .setTitle("Message supprimé:")
+    .setAuthor(`${msg.author.username} (${msg.author.id})`, msg.author.avatarURL())
+    .setDescription(msg.content)
+
+  const channel = client.channels.cache.get(logChannel)
+  channel.send(embed)
+})
+
+client.on('messageUpdate', (oldMsg, newMsg) => {
+    if(newMsg.content != oldMsg){
+        const embed = new Discord.MessageEmbed()
+        .setTitle("Message edité:")
+        .setAuthor(`${oldMsg.author.username} (${oldMsg.author.id})`, oldMsg.author.avatarURL())
+        .setDescription(`**Ancien:** ${oldMsg.content} \n **Nouveau:** ${newMsg.content}`)
+    
+      const channel = client.channels.cache.get(logChannel)
+      channel.send(embed)
+    }
+ })
+
 client.on('message', msg => {
     if (msg.content[0] !== '!') return;
     //prevent bot using commands
     if (msg.author.bot) return;
+
 
     const mapping = {
         ping: () => msg.reply(commands.pong()),
