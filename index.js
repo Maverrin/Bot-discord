@@ -17,6 +17,8 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     if (msg.content[0] !== '!') return;
+    //prevent bot using commands
+    if (msg.author.bot) return;
 
     const mapping = {
         ping: () => msg.reply(commands.pong()),
