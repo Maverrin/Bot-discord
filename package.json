@@ -1,0 +1,32 @@
+{
+  "name": "bot-discord",
+  "version": "1.0.0",
+  "description": "Bot discord for a specific server",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mawiedev/Bot-discord.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "unreal"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mawiedev/Bot-discord/issues"
+  },
+  "homepage": "https://github.com/Mawiedev/Bot-discord#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
