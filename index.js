@@ -1,10 +1,11 @@
 require('dotenv').config();
-const Discord = require('discord.js');
 const commands = require('./commands');
 const botConfig = require('./botConfig');
+const quotes = require('./quotes');
 
+const Discord = require('discord.js');
+const client = new Discord.Client();
 
-const client = new Discord.Client(botConfig);
 const serverId = '384349653254275082';
 const logChannel = '835143486176362527';
 
@@ -52,7 +53,6 @@ client.on('message', msg => {
     //prevent bot using commands
     if (msg.author.bot) return;
 
-
     const mapping = {
         ping: () => msg.reply(commands.pong()),
         say : (text) => tryToSend(msg.channel, commands.say(text)),
@@ -94,7 +94,7 @@ const sendEmbedMessage = (data) => {
 
     const embed = new Discord.MessageEmbed()
         .setTitle(title)
-        .setAuthor(author.name, author.imageUrl)
+        .setAuthor(author.name, author.iconUrl)
         .setDescription(description);
 
     const channel = client.channels.cache.get(logChannel);

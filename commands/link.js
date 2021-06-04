@@ -14,10 +14,11 @@ module.exports = (text) => {
         //online course
         uol   : 'https://www.unrealengine.com/en-US/onlinelearning-courses',
         //don't ask to ask
-        a2a: "https://dontasktoask.com/fr/"
+        a2a   : 'https://dontasktoask.com/fr/'
     };
 
     if (firstWord in mapping) return mapping[firstWord];
 
-    return `!link [ ${Object.keys(mapping).toString().replaceAll(',',' | ')} ]`;
+    return `!link [ ${Object.keys(mapping).toString().replace(/,/g,' | ')} ]`;
+    // return `!link [ ${Object.keys(mapping).toString().replaceAll(',',' | ')} ]`;
 };
