@@ -13,11 +13,14 @@ client.on('message', msg => {
         ping: commands.pong,
     };
 
-    const command = msg.content.split(' ')[0].substr(1);
+    const words = msg.content.split(' ');
+
+    const command = words.shift().substr(1);
+    const message = words.join(' ');
 
     if (!(command in mapping)) return;
 
-    msg.reply(mapping[msg]);
+    msg.reply(mapping[command](message));
 });
 
 client.login(process.env.TOKEN);

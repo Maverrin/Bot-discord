@@ -1,1 +1,1 @@
-module.exports = 'Response message: pong!';
+module.exports = () => 'Response message: pong!';
