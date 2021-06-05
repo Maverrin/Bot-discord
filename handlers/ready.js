@@ -9,5 +9,5 @@ module.exports = (client) => {
 
     console.log(`[LOGIN] Logged in as ${client.user.tag}`);
 
-    updateClientActivity();
+    updateClientActivity(client);
 };

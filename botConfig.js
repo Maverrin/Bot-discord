@@ -1,6 +1,6 @@
 module.exports = {
     ws: { 
-        intents: 'GUILD_PRESENCES' 
+        intents: 'GUILD_MEMBERS' 
     }
 };
 

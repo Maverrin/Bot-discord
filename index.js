@@ -3,7 +3,7 @@ const handlers = require('./handlers');
 
 const Discord = require('discord.js');
 const botConfig = require('./botConfig');
-const client = new Discord.Client(/* botConfig */);
+const client = new Discord.Client(botConfig);
 
 client.on('ready', () => handlers.ready(client));
 client.on('guildMemberAdd', member => handlers.guildMemberAdd(client));
