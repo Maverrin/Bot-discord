@@ -1,4 +1,9 @@
+/* eslint-disable max-len */
+
 const Discord = require('discord.js');
+let fs = require('fs');
+const quotes = require('./quotes');
+
 
 module.exports = {
     getMemberCount      : (client, serverId) => client.guilds.cache.get(serverId).memberCount,
@@ -7,10 +12,7 @@ module.exports = {
         // const memberCount = getMemberCount(client, serverId).toString();
         // client.user.setActivity(memberCount, {type: 'WATCHING'});
     },
-    tryToSend: (channel, text) => {
-        if (!!text === false) channel.send('You did not send any text, please specify your request.');
-        channel.send(text);
-    },
+    tryToSend       : (channel, text) => channel.send(text || 'You did not send any text, please specify your request.'),
     sendEmbedMessage: (client, data, channelId = null) => {
         const {title, author, description, color, footer} = data;
     
@@ -26,4 +28,17 @@ module.exports = {
 
         channel.send(embed);
     },
+    addQuote: (username, msgContent) => {
+        // clean user name, so only first word is used.
+        // If the name has a space in it, it would not recognize it
+        // as only the first word of command is understood by bot
+        username = username.split(' ')[0];
+        if (quotes[username]) quotes[username].push(msgContent);
+        else quotes[username] = [msgContent];
+
+        fs.writeFile('quotes.json', JSON.stringify(quotes), 'utf8', function (err) {
+            if (err) return console.log(err);
+            console.log(`[QUOTE ADDED] A quote from ${username} has been saved`);
+        });    
+    }
 };

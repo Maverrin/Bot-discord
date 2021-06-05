@@ -1,6 +1,7 @@
 module.exports = {
-    pong : require('./pong'),
-    say  : require('./say'),
+    add  : require('./add'),
     link : require('./link'),
+    pong : require('./pong'),
     quote: require('./quote'),
+    say  : require('./say'),
 };
