@@ -2,16 +2,22 @@ const commands = require('../commands');
 const quotes = require('../quotes');
 const {tryToSend, sendEmbedMessage} = require('../utils');
 
+
+// this variable is for the bot to not spam
+// the helperString message 
+let canSendHelp = true;
+const helperTimeout = 15*1000;
+
 module.exports = (client, msg) => {
     // ============================
-    // CONSTANTS
+    // VARIABLES
     // ============================
     const mapping = {
         ping : () => msg.reply(commands.pong()),
         say  : (text) => tryToSend(msg.channel, commands.say(text)),
         link : (text) => tryToSend(msg.channel, commands.link(text)),
         quote: (pseudo, quotes) => sendEmbedMessage(client, {
-            title      : cowmmands.quote(quotes),
+            title      : commands.quote(quotes),
             description: `*${pseudo[0].toUpperCase() + pseudo.slice(1)}* - Demandé par ${msgAuthor}`,
             color      : 0x0099ff,
             channel    : msg.channel
@@ -30,10 +36,13 @@ module.exports = (client, msg) => {
     };
 
     const helperString = `
-         Mauvaise commande. Voici la liste des commandes possibles: 
-        ![${Object.keys(mapping)},[${Object.keys(quotes)}]]
-        `
-        .replace(/,quote/, '')
+\`\`\`
+Mauvaise commande. Voici la liste des commandes possibles: 
+!say [text] -  Fait dire votre texte au bot
+!link [uefr,evan,cherno,ue,uol,a2a]  -  Donne le lien vers les ressources prédéfinies
+![${Object.keys(quotes).toString()}]  -  Fait dire une phrase sauvgardée aléatoire de cette personne
+!add [messageID]  -  Ajoute une phrase pour la commande ![Pseudo]
+\`\`\``
         .replace(/,/g, ' | ');
 
     // ============================
@@ -46,15 +55,17 @@ module.exports = (client, msg) => {
     const authorObject = client.guilds.cache.get(process.env.SERVER_ID).members.cache.get(msg.author.id);
     const msgAuthor = authorObject.nickname || authorObject.user.username;
 
-
     const words = msg.content.split(' ');
   
     const command = words.shift().substr(1);
     const message = words.join(' ');
     const pseudos = Object.keys(quotes);
 
-  
-    if (!(command in mapping) && !pseudos.includes(command)) return tryToSend(msg.channel, commands.say(helperString));
+    if (!(command in mapping) && !pseudos.includes(command) && canSendHelp === true) {
+        canSendHelp = false;
+        setTimeout(() => canSendHelp = true, helperTimeout);
+        return tryToSend(msg.channel, commands.say(helperString));
+    }
 
     msg.delete();
     // in this context, the command is a pseudo
