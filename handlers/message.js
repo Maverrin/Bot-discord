@@ -15,6 +15,7 @@ module.exports = (client, msg) => {
         ping : () => msg.reply(commands.pong()),
         say  : (text) => tryToSend(msg.channel, commands.say(text)),
         link : (text) => tryToSend(msg.channel, commands.link(text)),
+        rec  : () => commands.recrutement(client, msg),
         quote: (pseudo, quotes) => sendEmbedMessage(client, {
             title      : commands.quote(quotes),
             description: `*${pseudo[0].toUpperCase() + pseudo.slice(1)}* - Demandé par ${msgAuthor}`,
@@ -53,6 +54,7 @@ Mauvaise commande. Voici la liste des commandes possibles:
 
     const authorObject = client.guilds.cache.get(process.env.SERVER_ID).members.cache.get(msg.author.id);
     const msgAuthor = authorObject.nickname || authorObject.user.username;
+    const isDirectMessage = !!(msg.channel.type === 'dm');
 
     const words = msg.content.split(' ');
   
@@ -66,7 +68,7 @@ Mauvaise commande. Voici la liste des commandes possibles:
         return tryToSend(msg.channel, commands.say(helperString));
     }
 
-    msg.delete();
+    if (!isDirectMessage) msg.delete();
     // in this context, the command is a pseudo
     if (pseudos.includes(command)) return mapping.quote(command, quotes[command]);
     if (command in mapping) return mapping[command](message);
