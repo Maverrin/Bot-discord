@@ -1,34 +1,31 @@
 /* eslint-disable max-len */
 
-module.exports = (client, msg) => {
-    const words = msg.content.split(' ');
+const {writeFile} = require('../utils');
+const offers = require('../offers.json');
+const tempOffer = require('../offersTemp.json');
+
+module.exports = msg => {
+    const words = msg.content.replace('\n', ' \n').split(' ');
     const firstWord = words[1];
 
-    console.log({
-        content: msg.content,
-        author : msg.author.username,
-        words,
-        firstWord,
-        example: messages.example()
-    });
-
-
+    // First interaction with bot
     if (firstWord === undefined) {
         msg.author.send(mapping.rules());
         return msg.author.send(mapping.commandList());
     }
+    // Wrong command
     if (!(firstWord in mapping)) {
         return msg.author.send(mapping.commandList(':exclamation: Commande non comprise'));
     }
 
-    return mapping[firstWord](words.join(' '));
+    return mapping[firstWord](words.slice(2).join(' '), msg.author.username);
 };
 
 
 
 
 // ============================
-// CONSTANTS
+// MESSAGE STRINGS
 // ============================
 
 const rulesDescription = `
@@ -83,14 +80,55 @@ const messages = {
             title      : 'Utilisez ce template pour formuler votre annonce:',
             description: formTemplate
         },
+    }),
+    multipleTempOffers: (offers) => ({
+        embed: {
+            title      : 'Vous avez plusieurs offres non publiées:',
+            description: `${offers.toString().replace(/,/g, ', ')}.\nVeuillez utiliser la commande \`!preview [projet]\` pour avoir une preview du message de recrutement`
+        },
     })
 };
 
 
+// ============================
+// COMMANDS
+// ============================
+
 const mapping = {
     commandList: messages.commandList,
     example    : messages.example,
-    preview    : () => {},
     rules      : messages.rules,
-    offer      : () => {}
+    template   : messages.template,
+    preview    : (text, username) => {
+        const tempOffers = Object.keys(tempOffer[username]);  
+        console.log(tempOffer, tempOffers);
+        if (tempOffers.length > 1) return messages.multipleTempOffers(tempOffers);
+    },
+    finish: (text, username) => {},
+    offer : (text, username) => {
+        const offer = {};
+      
+        // Parsing message
+        text.split('\n').forEach(line => {
+            const key = line.substr(0, line.indexOf(':'));
+            const value = line.substr(line.indexOf(':')+1).trim();
+            const authorizedKeys = ['title', 'about-us', 'project', 'project-status', 'images', 'images', 'contact'];
+
+            if (key == false) return;
+            if (!authorizedKeys.includes(key)) throw new Error(`Wrong key: ${key}. Authorized ones: ${authorizedKeys})`);
+
+            if (['images', 'videos'].includes(key)) return offer[key] = value.split(',');
+            return offer[key] = value;
+        });
+        
+        // Save in temp json
+        if (tempOffer[username]) tempOffer[username][offer.title] = offer;
+        else tempOffer[username] = {[offer.title]: offer};
+
+        writeFile('offersTemp.json', JSON.stringify(tempOffer));  
+
+        console.log(`[OFFER ADDED] An offer from ${username} has been saved (temp)`);
+
+        // return mapping.preview(null, username);
+    },
 };

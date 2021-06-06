@@ -1,0 +1,15 @@
+{
+  "Adalon": {
+    "Example title": {
+      "title": "Example title",
+      "about-us": "test",
+      "project": "test",
+      "project-status": "commencé",
+      "images": [
+        "https://picsum.photos/200/300",
+        "https://picsum.photos/200/300"
+      ],
+      "contact": "email@me.fr"
+    }
+  }
+}

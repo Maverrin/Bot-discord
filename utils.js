@@ -42,9 +42,9 @@ module.exports = {
         if (quotes[username]) quotes[username].push(msgContent);
         else quotes[username] = [msgContent];
 
-        fs.writeFile('quotes.json', JSON.stringify(quotes), 'utf8', function (err) {
-            if (err) return console.log(err);
-            console.log(`[QUOTE ADDED] A quote from ${username} has been saved`);
-        });    
-    }
+        module.exports.writeFile('quotes.json', JSON.stringify(quotes));
+        
+        console.log(`[QUOTE ADDED] A quote from ${username} has been saved`);
+    },
+    writeFile: (absolutePath, str) => fs.writeFileSync(absolutePath, str),
 };

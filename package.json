@@ -6,7 +6,7 @@
   "scripts": {
     "test": "test",
     "start": "node index.js",
-    "start:dev": "nodemon index.js"
+    "start:dev": "nodemon index.js --ignore '*.json'"
   },
   "repository": {
     "type": "git",
