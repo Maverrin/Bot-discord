@@ -9,19 +9,19 @@ module.exports = (client, msg) => {
         author : msg.author.username,
         words,
         firstWord,
+        example: messages.example()
     });
 
 
     if (firstWord === undefined) {
-        msg.author.send(mapping.rules);
+        msg.author.send(mapping.rules());
         return msg.author.send(mapping.commandList());
     }
     if (!(firstWord in mapping)) {
         return msg.author.send(mapping.commandList(':exclamation: Commande non comprise'));
     }
 
-    mapping[firstWord];
-
+    return mapping[firstWord](words.join(' '));
 };
 
 
@@ -54,30 +54,43 @@ Soit vous avez des statuts, soit vous n'en avez pas, aucun problème, mais pas d
 `;
 
 
-const formFormat = `
-Pour remplir les informations de l'offre de recrutement, 
+const formTemplate = `
 `;
 
 
 const messages = {
-    commandList: (text = '') => ({
+    commandList: (title = ':question: Liste des commandes') => ({
         embed: {
-            title      : '',
-            description: 'Voici les commandes possibles: !recrutement [ rules | preview | commandList ]',
+            title : title,
+            fields: [
+                {name: '!recrutement commandList', value: 'description'},
+                {name: '!recrutement example', value: 'description'},
+                {name: '!recrutement preview', value: 'description'},
+                {name: '!recrutement rules', value: 'description'},
+                {name: '!recrutement offer', value: 'description'},
+            ]
         },
     }),
-    rules: {
+    rules: () => ({
         embed: {
             title      : 'Vous souhaitez poster une annonce ? Pas de problème !',
             description: rulesDescription
         },
-    },
-    example: {}
+    }),
+    example : () => {},
+    template: () => ({
+        embed: {
+            title      : 'Utilisez ce template pour formuler votre annonce:',
+            description: formTemplate
+        },
+    })
 };
 
 
 const mapping = {
+    commandList: messages.commandList,
+    example    : messages.example,
     preview    : () => {},
     rules      : messages.rules,
-    commandList: messages.commandList
+    offer      : () => {}
 };

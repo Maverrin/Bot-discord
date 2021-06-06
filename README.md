@@ -20,7 +20,7 @@ To do:
 
 * ~commande expliquant que la question n en est pas une et qu il faut apprendre a poser une question~
 
-* récupérer les annonces de epic games (YT / twitch / twitter)
+* ~récupérer les annonces de epic games (YT / twitch / twitter)~
 
 * ~logs tels que les messages supprimés et édités~
 
