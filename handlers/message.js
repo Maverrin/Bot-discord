@@ -2,7 +2,6 @@ const commands = require('../commands');
 const quotes = require('../quotes');
 const {tryToSend, sendEmbedMessage} = require('../utils');
 
-
 // this variable is for the bot to not spam
 // the helperString message 
 let canSendHelp = true;
