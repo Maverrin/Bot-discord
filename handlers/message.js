@@ -38,10 +38,11 @@ module.exports = (client, msg) => {
     const helperString = `
 \`\`\`
 Mauvaise commande. Voici la liste des commandes possibles: 
-!say [text] -  Fait dire votre texte au bot
-!link [uefr,evan,cherno,ue,uol,a2a]  -  Donne le lien vers les ressources prédéfinies
-![${Object.keys(quotes).toString()}]  -  Fait dire une phrase sauvgardée aléatoire de cette personne
-!add [messageID]  -  Ajoute une phrase pour la commande ![Pseudo]
+**!say [text]** -  Fait dire votre texte au bot\n
+**!link [uefr, evan, cherno, ue, uol, a2a]**  -  Donne le lien vers les ressources prédéfinies\n
+**![${Object.keys(quotes).toString()}]**  -  Fait dire une phrase sauvegardée aléatoire de cette personne\n
+**!add [messageID]**  -  Ajoute une phrase pour la commande ![Pseudo]\n
+**!rec**  -  Crée une annonce de recrutement 
 \`\`\``
         .replace(/,/g, ' | ');
 
