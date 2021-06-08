@@ -6,6 +6,8 @@ const quotes = require('./quotes');
 
 
 module.exports = {
+    writeFile     : (absolutePath, str) => fs.writeFileSync(absolutePath, str),
+    tryToSend     : (channel, text) => channel.send(text || 'You did not send any text, please specify your request.'),
     getMemberCount: async (client, serverId = process.env.SERVER_ID) => {
         const guild = await client.guilds.fetch(serverId);
         const members = await guild.members.fetch();
@@ -18,7 +20,6 @@ module.exports = {
             client.user.setActivity(memberCount + ' utilisateurs', {type: 'WATCHING'});
         });
     },
-    tryToSend       : (channel, text) => channel.send(text || 'You did not send any text, please specify your request.'),
     sendEmbedMessage: (client, data, channelId = null) => {
         const {title, author, description, color, footer} = data;
     
@@ -46,5 +47,24 @@ module.exports = {
         
         console.log(`[QUOTE ADDED] A quote from ${username} has been saved`);
     },
-    writeFile: (absolutePath, str) => fs.writeFileSync(absolutePath, str),
+    offerToEmbed: (offer, options = {}) => ({embed: {
+        title      : offer.title,
+        // Maybe use fields would make a better result
+        description: `
+            Mapping et formatage à faire
+            :singer: project - ${offer.project}
+            :footprints: project-status - ${offer['project-status']}
+            :military_helmet: contact - ${offer.contact}
+            ${offer.images.toString().replace(/,/, ', ')}
+          `,
+        // https://discord.js.org/#/docs/main/stable/class/MessageEmbed
+        // Doesn't work 
+        // image: {url: offer.images[0]},
+        // thumbnail: {url: offer.images[1]}
+        files: [
+            // {url: offer.images[0]},
+            // {url: offer.images[1]}
+        ],
+        ...options
+    }})
 };

@@ -15,7 +15,7 @@ module.exports = (client, msg) => {
         ping : () => msg.reply(commands.pong()),
         say  : (text) => tryToSend(msg.channel, commands.say(text)),
         link : (text) => tryToSend(msg.channel, commands.link(text)),
-        rec  : () => commands.recrutement(msg),
+        rec  : () => commands.recrutement(client, msg),
         quote: (pseudo, quotes) => sendEmbedMessage(client, {
             title      : commands.quote(quotes),
             description: `*${pseudo[0].toUpperCase() + pseudo.slice(1)}* - Demandé par ${msgAuthor}`,

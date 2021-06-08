@@ -1,12 +1,24 @@
 # Bot discord [WIP]
 
+## Install and run
+
+`> npm install`
+
+Rename `.env.template` to `.env` and put your Discord server [tokens/keys](https://www.writebots.com/discord-bot-token) in it
+
+`> npm start`
+
+The bot should be running on your server
+
+## TODO
+
 Bot discord for a specific server
 
 To do:
 
 * ~afficher le nombre de personne sur le serveur en bas du pseudo du bot (avec update pour chaque nouveau départ et arrivée)~
 
-* commande qui permet de creer une annonce de recrutement pour un projet (le bot vient parler en priver et tu suis les etapes de la creation du projet)
+* ~commande qui permet de creer une annonce de recrutement pour un projet (le bot vient parler en priver et tu suis les etapes de la creation du projet)~
 
 * ~commande qui permet de faire parler le bot~ 
 
