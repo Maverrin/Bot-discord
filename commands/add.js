@@ -12,11 +12,12 @@ module.exports = async (client, messageId) => {
         if (channel.type === 'text') promises.push(channel.messages.fetch(messageId));
     }
 
-    const msg = await oneSuccess(promises);
+    const foundMessage = await oneSuccess(promises);
 
-    addQuote(msg.author.username, msg.content);
+    // TODO Check if quote already saved
+    addQuote(foundMessage.author.username, foundMessage.content);
     
-    return msg;
+    return foundMessage;
 };
 
 

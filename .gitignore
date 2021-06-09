@@ -1,6 +1,6 @@
 # file types
-.env*
-.log*
+.env
+*.log
 !*.template
 .vim
 package-lock.json

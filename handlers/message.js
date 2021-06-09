@@ -72,5 +72,6 @@ Mauvaise commande. Voici la liste des commandes possibles:
     if (!isDirectMessage) msg.delete();
     // in this context, the command is a pseudo
     if (pseudos.includes(command)) return mapping.quote(command, quotes[command]);
+    // TODO tryCatch to let errors and keep bot running + return message to User to know it failed
     if (command in mapping) return mapping[command](message);
 };

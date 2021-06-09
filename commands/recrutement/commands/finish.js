@@ -14,19 +14,31 @@ const {writeFile, offerToEmbed} = require('../../../utils');
 module.exports = (text, username, client) => {
     const tempOffers = Object.keys(tempOffersFile[username]);  
 
-    if (tempOffers.length > 1 && !text) return messages.multipleTempOffers(tempOffers);
-    if (!tempOffers.includes(text)) return messages.multipleTempOffers(tempOffers, `Le nom de l'offre n'a pas été trouvé: ${text}`);
+    if (tempOffers.length === 0) return 'Aucune annonce créée. Utilisez [!rec offer] pour créer une annonce.';
+    if (tempOffers.length > 1) {
+        if (!text) return messages.multipleTempOffers(tempOffers);
+        if (!tempOffers.includes(text)) return messages.multipleTempOffers(tempOffers, `Le nom de l'offre n'a pas été trouvé: ${text}`);
+    }
 
-    const offer = tempOffersFile[username][text];
+    const offer = {
+        ...(tempOffers.length > 1 
+            ? tempOffersFile[username][text] 
+            : tempOffersFile[username][tempOffers[0]]),
+        creationDate: new Date().toISOString()
+    };
+
+    // TODO logs: [An offer from Username] <<< ADD #NUMBER
 
     // SAVE IN JSON FILE
     if (offersFile[username]) offersFile[username][offer.title] = offer;
     else offersFile[username] = {[offer.title]: offer};    
-    writeFile('offers.json', JSON.stringify(tempOffersFile));  
+    writeFile('offers.json', JSON.stringify(offersFile));  
     console.log(`[OFFER SAVED] An offer from ${username} has been saved`);
 
     // DELETE FROM TEMP FILE
-    delete tempOffersFile[username][text];
+    tempOffers.length > 1 
+        ? delete tempOffersFile[username][text] 
+        : delete tempOffersFile[username][tempOffers[0]];
     console.log(`[TEMP OFFER DELETED] An offer from ${username} has been deleted`);
     writeFile('offersTemp.json', JSON.stringify(tempOffersFile));  
 
