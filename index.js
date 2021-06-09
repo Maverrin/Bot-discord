@@ -1,3 +1,4 @@
+require('console-stamp')(console, {format: ':date(yy/mm/dd HH:MM:ss)'});
 require('dotenv').config();
 const handlers = require('./handlers');
 
