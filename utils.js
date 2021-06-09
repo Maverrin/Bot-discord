@@ -47,6 +47,7 @@ module.exports = {
         
         console.log(`[QUOTE ADDED] A quote from ${username} has been saved`);
     },
+    // TODO Here is the actual offer mapping. The design part is to be done.
     offerToEmbed: (offer, options = {}) => ({embed: {
         title      : offer.title,
         // Maybe use fields would make a better result
@@ -65,6 +66,7 @@ module.exports = {
             // {url: offer.images[0]},
             // {url: offer.images[1]}
         ],
+        color: process.env.COLOR_OFFER,
         ...options
     }})
 };

@@ -19,7 +19,7 @@ module.exports = (client, msg) => {
         quote: (pseudo, quotes) => sendEmbedMessage(client, {
             title      : commands.quote(quotes),
             description: `*${pseudo[0].toUpperCase() + pseudo.slice(1)}* - Demandé par ${msgAuthor}`,
-            color      : 0x0099ff,
+            color      : process.env.COLOR_QUOTE,
             channel    : msg.channel
         }),
         add: (messageId) => commands.add(client, messageId)
@@ -28,23 +28,23 @@ module.exports = (client, msg) => {
                 sendEmbedMessage(client, {
                     title      : fetchedMsg.content,
                     description: `*${fetchedAuthor}* - Message rajouté par ${msgAuthor}`,
-                    color      : '#A84300',
+                    color      : process.env.COLOR_NEW_QUOTE,
                     channel    : msg.channel
                 });
             })
             .catch(err => tryToSend(msg.channel, `${messageId} not found :/`)),
     };
 
+    // TODO? transform in embed with fields
     const helperString = `
 \`\`\`
 Mauvaise commande. Voici la liste des commandes possibles: 
 **!say [text]** -  Fait dire votre texte au bot\n
 **!link [uefr, evan, cherno, ue, uol, a2a]**  -  Donne le lien vers les ressources prédéfinies\n
-**![${Object.keys(quotes).toString()}]**  -  Fait dire une phrase sauvegardée aléatoire de cette personne\n
+**![${Object.keys(quotes).toString().replace(/,/g, ' | ')}]**  -  Fait dire une phrase sauvegardée aléatoire de cette personne\n
 **!add [messageID]**  -  Ajoute une phrase pour la commande ![Pseudo]\n
-**!rec**  -  Crée une annonce de recrutement 
-\`\`\``
-        .replace(/,/g, ' | ');
+**!rec**  -  Créé une annonce de recrutement 
+\`\`\``;
 
     // ============================
     // HANDLING
