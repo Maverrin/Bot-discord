@@ -6,11 +6,12 @@ const messages = require('../embedMessages');
 /**
  * Maps the user's input data in JSON temp file
  * @param {*} text -
- * @param {*} username -
+ * @param {*} user -
  * @return {Msg} - 
  */
-module.exports = (text, username) => {
+module.exports = (text, user) => {
     const offer = {};
+    const userName = user.username;
 
     if (!text) return messages.template('L\'offre est vide. Utilisez cet exemple pour créer une offre:');
 
@@ -28,11 +29,10 @@ module.exports = (text, username) => {
     });
 
     // Save in temp json
-    if (tempOffersFile[username]) tempOffersFile[username][offer.title] = offer;
-    else tempOffersFile[username] = {[offer.title]: offer};
+    if (tempOffersFile[userName]) tempOffersFile[userName][offer.title] = offer;
+    else tempOffersFile[userName] = {[offer.title]: offer};
     writeFile('offersTemp.json', JSON.stringify(tempOffersFile));  
+    console.log(`[OFFER SAVED - TEMP] An offer from ${user.username}#${user.discriminator} has been saved`);
 
-    console.log(`[TEMP OFFER SAVED] An offer from ${username} has been saved`);
-
-    return preview(offer.title, username);
+    return preview(offer.title, user);
 };

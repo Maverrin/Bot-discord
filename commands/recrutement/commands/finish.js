@@ -7,12 +7,14 @@ const {writeFile, offerToEmbed} = require('../../../utils');
  * Save offer in "definitive file" and publishes 
  * to public Discord server
  * @param {*} text -
- * @param {*} username -
+ * @param {*} user -
  * @param {DiscordClient} client -
  * @return {Msg} -
  */
-module.exports = (text, username, client) => {
-    const tempOffers = Object.keys(tempOffersFile[username]);  
+module.exports = (text, user, client) => {
+    const userName = user.username;
+    const fullName = `${user.username}#${user.discriminator}`;
+    const tempOffers = Object.keys(tempOffersFile[userName]);  
 
     if (tempOffers.length === 0) return 'Aucune annonce créée. Utilisez [!rec offer] pour créer une annonce.';
     if (tempOffers.length > 1) {
@@ -22,24 +24,21 @@ module.exports = (text, username, client) => {
 
     const offer = {
         ...(tempOffers.length > 1 
-            ? tempOffersFile[username][text] 
-            : tempOffersFile[username][tempOffers[0]]),
+            ? tempOffersFile[userName][text] 
+            : tempOffersFile[userName][tempOffers[0]]),
         creationDate: new Date().toISOString()
     };
 
-    // TODO logs: [An offer from Username] <<< ADD #NUMBER
-
     // SAVE IN JSON FILE
-    if (offersFile[username]) offersFile[username][offer.title] = offer;
-    else offersFile[username] = {[offer.title]: offer};    
+    if (offersFile[userName]) offersFile[userName][offer.title] = offer;
+    else offersFile[userName] = {[offer.title]: offer};    
     writeFile('offers.json', JSON.stringify(offersFile));  
-    console.log(`[OFFER SAVED] An offer from ${username} has been saved`);
+    console.log(`[OFFER SAVED] An offer from ${fullName} has been saved`);
 
     // DELETE FROM TEMP FILE
     tempOffers.length > 1 
-        ? delete tempOffersFile[username][text] 
-        : delete tempOffersFile[username][tempOffers[0]];
-    console.log(`[TEMP OFFER DELETED] An offer from ${username} has been deleted`);
+        ? delete tempOffersFile[userName][text] 
+        : delete tempOffersFile[userName][tempOffers[0]];
     writeFile('offersTemp.json', JSON.stringify(tempOffersFile));  
 
     // SEND TO PUBLIC CHANNEL
@@ -48,7 +47,7 @@ module.exports = (text, username, client) => {
     const embed = offerToEmbed(offer);
 
     channel.send(embed);
-    console.log(`[OFFER POSTED] "${offer.title}" from ${username} has been posted on channel: #${channel.name} (id: ${channelId})`);
+    console.log(`[OFFER POSTED] "${offer.title}" from ${fullName} has been posted on channel: #${channel.name} (id: ${channelId})`);
 
     return 'Felicitations ! Ton annonce a été postée :partying_face: \nBonne chance !';
 };

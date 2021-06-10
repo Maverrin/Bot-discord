@@ -3,13 +3,14 @@ const messages = require('../embedMessages');
 
 /**
  * @param {*} text -
- * @param {*} username -
+ * @param {*} user -
  * @return {Msg} -
  */
-module.exports = (text, username) => {
-    const tempOffers = Object.keys(tempOffersFile[username]);  
+module.exports = (text, user) => {
+    const userName = user.username;
+    const tempOffers = Object.keys(tempOffersFile[userName]);  
 
     if (tempOffers.length > 1 && !text) return messages.multipleTempOffers(tempOffers);
     if (!tempOffers.includes(text)) return messages.multipleTempOffers(tempOffers, `Le nom de l'offre n'a pas été trouvé: ${text}`);
-    return messages.preview(tempOffersFile[username][text]);
+    return messages.preview(tempOffersFile[userName][text]);
 };
