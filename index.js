@@ -4,12 +4,12 @@ const handlers = require('./handlers');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
+// Overwrite console.log to keep log file
 if (process.env.ENV === 'PROD') {
-    // Overwrite console.log to keep log file
     let fs = require('fs');
     let log_file = fs.createWriteStream('./debug.log', {flags: 'a'});
     let log_stdout = process.stdout;
-    console.log = text => { 
+    console.log = (text) => { 
         const now = new Date().toISOString();
         const date = now.substr(2,8)+' '+now.substr(11,8);
         const string = `[${date}] ${text}\n`;
