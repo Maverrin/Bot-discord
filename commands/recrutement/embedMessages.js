@@ -35,7 +35,7 @@ module.exports = {
         'project-status': 'Pré-alpha',
         'images'        : [
             'https://picsum.photos/200/300',
-            'https://picsum.photos/200/300'
+            'https://picsum.photos/300/500'
         ],
         'contact': 'email@me.fr'
     }),
@@ -45,14 +45,14 @@ module.exports = {
             description: formTemplate
         },
     }),
-    multipleTempOffers: (offers, title = 'Vous avez plusieurs offres non publiées:') => ({
+    multipleTempOffers: (offers, title) => ({
         embed: {
-            title      : title,
+            title      : title || 'Vous avez plusieurs offres non publiées:',
             description: `**${offers.toString().replace(/,/g, ', ')}**.\n
           Veuillez utiliser la commande \`!rec preview [projet]\` pour avoir une preview du message de recrutement
           Ou la commande \`!rec finish [project]\` pour sauvegarder votre annonce et la publier
           `
         },
     }),
-    preview: (offer) =>  offerToEmbed(offer, {footer: {text: previewFooter}}),
+    preview: (offer) => offerToEmbed(offer, {footer: {text: previewFooter}}),
 };

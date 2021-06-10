@@ -1,1 +1,0 @@
-module.exports = (quotes) => quotes[Math.floor(Math.random() * quotes.length)];
