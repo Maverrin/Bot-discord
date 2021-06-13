@@ -1,18 +1,16 @@
-const {sendEmbedMessage} = require('../utils'); 
+const {tryToSendChannelId} = require('../utils');
 
 module.exports = (client, oldMsg, newMsg) => {
-    if(newMsg.content != oldMsg.content){
-        sendEmbedMessage(
-            client,
-            {
+    if(newMsg.content != oldMsg.content) {
+        tryToSendChannelId(client, process.env.LOG_CHANNEL_ID, { 
+            embed: {
                 title : 'Message édité:',
                 author: {
                     name   : `${oldMsg.author.username} (${oldMsg.author.id})`, 
                     iconUrl: oldMsg.author.avatarURL()
                 },
                 description: `**Ancien:** ${oldMsg.content} \n **Nouveau:** ${newMsg.content}`
-            },
-            process.env.LOG_CHANNEL_ID 
-        );
-    }
+            }
+        }
+    )}
 };

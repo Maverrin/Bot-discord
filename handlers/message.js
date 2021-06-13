@@ -11,56 +11,89 @@ module.exports = (client, msg) => {
     // ============================
     // VARIABLES
     // ============================
-    const mapping = {
-        ping : () => msg.reply(commands.pong()),
-        say  : (text) => tryToSend(msg.channel, commands.say(text)),
-        link : (text) => tryToSend(msg.channel, commands.link(text)),
-        quote: (userName) => tryToSend(msg.channel, commands.quote(userName, msg)),
-        rec  : () => commands.recrutement(client, msg),
-        add  : (messageId) => commands.add(client, messageId, msg)
-            .then(text => tryToSend(msg.channel, text))     
-            .catch(err => tryToSend(msg.channel, `${messageId} not found :/`))
+    
+    const helperString = 
+    {
+        embed: {
+            title : 'Mauvaise commande. Voici la liste des commandes possibles:',
+            description: `**!say [text]** -  Fait dire votre texte au bot.\n
+            **!link [uefr | evan | cherno | ue | uol | a2a]**  -  Donne le lien vers les ressources prédéfinies.\n
+            **![${Object.keys(quotes).toString().replace(/,/g, ' | ')}]**  -  Fait dire une phrase sauvegardée aléatoire de cette personne.\n
+            **!add [messageID]**  -  Ajoute une phrase pour la commande ![Pseudo].\n
+            **!impaye**  -  Créé une annonce de recrutement non payé.\n
+            **!paye**  -  Créé une annonce de recrutement payé.\n
+            **!service**  -  Crée une annonce de recrutement pour proposer ses services (freelance).\n`
+        }
     };
 
-    // TODO? transform in embed with fields
-    const helperString = `
-\`\`\`
-Mauvaise commande. Voici la liste des commandes possibles: 
-**!say [text]** -  Fait dire votre texte au bot\n
-**!link [uefr, evan, cherno, ue, uol, a2a]**  -  Donne le lien vers les ressources prédéfinies\n
-**![${Object.keys(quotes).toString().replace(/,/g, ' | ')}]**  -  Fait dire une phrase sauvegardée aléatoire de cette personne\n
-**!add [messageID]**  -  Ajoute une phrase pour la commande ![Pseudo]\n
-**!rec**  -  Créé une annonce de recrutement 
-\`\`\``;
+    if (msg.channel.type == 'text' && msg.content[0] == '!') {
+        const mapping = {
+            say  : (text) => tryToSend(msg.channel, commands.say(text)),
+            link : (text) => tryToSend(msg.channel, commands.link(text)),
+            quote: (userName) => tryToSend(msg.channel, commands.quote(userName, msg)),
+            add  : (messageId) => commands.add(client, messageId, msg)
+                .then(text => tryToSend(msg.channel, text))     
+                .catch(err => tryToSend(msg.channel, `${messageId} not found :/`))
+    
+        };
 
-    // ============================
-    // HANDLING
-    // ============================
-    if (msg.content[0] !== '!') return;
-    //prevent bot using commands
-    if (msg.author.bot) return;
+        //prevent bot using commands
+        if (msg.author.bot) return;
 
-    const words = msg.content.split(' ');
-  
-    const command = words.shift().substr(1);
-    const message = words.join(' ');
-    const quotedPersons = Object.keys(quotes);
+        const words = msg.content.split(' ');
+    
+        const command = words.shift().substr(1);
+        const message = words.join(' ');
+        const quotedPersons = Object.keys(quotes);
 
-    if (!(command in mapping) && !quotedPersons.includes(command) && canSendHelp === true) {
-        canSendHelp = false;
-        setTimeout(() => canSendHelp = true, helperTimeout);
-        return tryToSend(msg.channel, commands.say(helperString));
+        if (command.length === 0) return
+
+        if (msg.channel.type != 'dm') msg.delete();
+    
+
+         // Unknown command, send help message
+        if (!(command in mapping) && !quotedPersons.includes(command) && canSendHelp === true) {
+            canSendHelp = false;
+            setTimeout(() => canSendHelp = true, helperTimeout);
+            return tryToSend(msg.channel, helperString);
+        }
+
+        // in this context, the command is a pseudo
+        if (quotedPersons.includes(command)) return mapping.quote(command);
+
+        // Handle any bug in commands
+        try {
+            if (command in mapping) return mapping[command](message)
+        } catch (error) {
+            console.log(error);
+            return tryToSend(msg.channel, ':bangbang: Error, please check logs ¯\\_(ツ)_/¯');
+        }
     }
 
-    if (!msg.channel.type === 'dm') msg.delete();
+    if (msg.channel.type == 'dm')
+    {
+        const mapping = {
+            paye  : (text) => tryToSend(msg.channel, commands.paye(text)),
+            nonpaye : (text) => tryToSend(msg.channel, commands.nonpaye(text)),
+            freelance: (userName) => tryToSend(msg.channel, commands.freelance(userName, msg)),
+        };
 
-    // in this context, the command is a pseudo
-    if (quotedPersons.includes(command)) return mapping.quote(command);
+        //prevent bot using commands
+        if (msg.author.bot) return;
 
-    try {
-        if (command in mapping) return mapping[command](message);
-    } catch (error) {
-        console.log(error);
-        return tryToSend(msg.channel, ':bangbang: Error, please check logs ¯\\_(ツ)_/¯');
+        const words = msg.content.split(' ');
+        const command = words.shift().substr(1);
+        const message = words.join(' ');
+
+        if (command.length === 0) return
+        console.log("it works");
+
+        // Handle any bug in commands
+        try {
+            if (command in mapping) return mapping[command](message)
+        } catch (error) {
+            console.log(error);
+            return tryToSend(msg.channel, ':bangbang: Erreur! Demande de l\'aide a un membre du staff ¯\\_(ツ)_/¯');
+        }
     }
 };

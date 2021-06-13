@@ -1,14 +1,12 @@
-const {sendEmbedMessage} = require('../utils'); 
+const {tryToSend} = require('../utils')
 
-module.exports = (client, msg) => sendEmbedMessage(
-    client, 
-    {
+module.exports = (msg) => tryToSend(msg.channel, {
+    embed: {
         title : 'Message supprimé:',
         author: {
             name   : `${msg.author.username} (${msg.author.id})`, 
-            iconUrl: msg.author.avatarURL()
+            iconURL: msg.author.avatarURL()
         },
         description: msg.content
-    }, 
-    process.env.LOG_CHANNEL_ID    
-);
+    }
+});

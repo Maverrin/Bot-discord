@@ -6,8 +6,18 @@ const quotes = require('./quotes');
 
 
 module.exports = {
+    
     writeFile     : (absolutePath, str) => fs.writeFileSync(absolutePath, str),
-    tryToSend     : (channel, text) => channel.send(text || 'You did not send any text, please specify your request.'),
+    tryToSend     : (channel, text) => {
+        if (channel.type != 'dm') channel.send(text || 'Vous devez spécifier un texte.')
+    },
+    tryToSendChannelId : (client, channelId, text) => {
+
+        const channel = client.channels.cache.get(channelId);
+        if (!channel) throw new Error('Channel ID not found: ' +  channelId);
+
+        module.exports.tryToSend(channel, text);
+    },
     getMemberCount: async (client, serverId = process.env.SERVER_ID) => {
         const guild = await client.guilds.fetch(serverId);
         const members = await guild.members.fetch();
@@ -30,10 +40,6 @@ module.exports = {
         if (color) embed.setColor(color);
         if (footer) embed.setFooter(footer);
 
-        const channel = data.channel || client.channels.cache.get(channelId);
-        if (!channel) throw new Error('Wrong channel information');
-
-        channel.send(embed);
     },
     addQuote: (username, msgContent) => {
         // clean user name, so only first word is used.
@@ -52,7 +58,7 @@ module.exports = {
         title      : offer.title,
         // Maybe use fields would make a better result
         description: `
-            Mapping et formatage à faire
+            **Mapping et formatage à faire**
             :singer: project - ${offer.project}
             :footprints: project-status - ${offer['project-status']}
             :military_helmet: contact - ${offer.contact}

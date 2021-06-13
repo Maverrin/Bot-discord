@@ -22,7 +22,7 @@ if (process.env.ENV === 'PROD') {
 client.on('ready', () => handlers.ready(client));
 client.on('guildMemberAdd', member => handlers.guildMemberAdd(client));
 client.on('guildMemberRemove', member => handlers.guildMemberRemove(client));
-client.on('messageDelete', msg => handlers.messageDelete(client, msg));
+client.on('messageDelete', msg => handlers.messageDelete(msg));
 client.on('messageUpdate', (oldMsg, newMsg) => handlers.messageUpdate(client, oldMsg, newMsg));
 client.on('message', msg => handlers.message(client, msg));
 
