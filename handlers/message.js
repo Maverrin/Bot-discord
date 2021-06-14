@@ -8,6 +8,8 @@ let canSendHelp = true;
 const helperTimeout = 15*1000;
 
 module.exports = (client, msg) => {
+    if (msg.author.bot) return;
+
     // ============================
     // VARIABLES
     // ============================
@@ -15,7 +17,7 @@ module.exports = (client, msg) => {
     const helperString = 
     {
         embed: {
-            title : 'Mauvaise commande. Voici la liste des commandes possibles:',
+            title      : 'Mauvaise commande. Voici la liste des commandes possibles:',
             description: `**!say [text]** -  Fait dire votre texte au bot.\n
             **!link [uefr | evan | cherno | ue | uol | a2a]**  -  Donne le lien vers les ressources prédéfinies.\n
             **![${Object.keys(quotes).toString().replace(/,/g, ' | ')}]**  -  Fait dire une phrase sauvegardée aléatoire de cette personne.\n
@@ -26,6 +28,9 @@ module.exports = (client, msg) => {
         }
     };
 
+    // ----------------------------------
+    // SERVER MESSAGES HANDLING
+    // ----------------------------------
     if (msg.channel.type == 'text' && msg.content[0] == '!') {
         const mapping = {
             say  : (text) => tryToSend(msg.channel, commands.say(text)),
@@ -37,21 +42,17 @@ module.exports = (client, msg) => {
     
         };
 
-        //prevent bot using commands
-        if (msg.author.bot) return;
-
         const words = msg.content.split(' ');
     
         const command = words.shift().substr(1);
         const message = words.join(' ');
         const quotedPersons = Object.keys(quotes);
 
-        if (command.length === 0) return
+        if (command.length === 0) return;
 
-        if (msg.channel.type != 'dm') msg.delete();
-    
+        msg.delete();
 
-         // Unknown command, send help message
+        // Unknown command, send help message
         if (!(command in mapping) && !quotedPersons.includes(command) && canSendHelp === true) {
             canSendHelp = false;
             setTimeout(() => canSendHelp = true, helperTimeout);
@@ -63,18 +64,21 @@ module.exports = (client, msg) => {
 
         // Handle any bug in commands
         try {
-            if (command in mapping) return mapping[command](message)
+            if (command in mapping) return mapping[command](message);
         } catch (error) {
             console.log(error);
             return tryToSend(msg.channel, ':bangbang: Error, please check logs ¯\\_(ツ)_/¯');
         }
     }
 
+    // ----------------------------------
+    // DM MESSAGE HANDLING
+    // ----------------------------------
     if (msg.channel.type == 'dm')
     {
         const mapping = {
-            paye  : (text) => tryToSend(msg.channel, commands.paye(text)),
-            nonpaye : (text) => tryToSend(msg.channel, commands.nonpaye(text)),
+            paid     : (text) => tryToSend(msg.channel, commands.paid(text, msg.author)),
+            unpaid   : (text) => tryToSend(msg.channel, commands.unpaid(text, msg.author)),
             freelance: (userName) => tryToSend(msg.channel, commands.freelance(userName, msg)),
         };
 
@@ -85,12 +89,11 @@ module.exports = (client, msg) => {
         const command = words.shift().substr(1);
         const message = words.join(' ');
 
-        if (command.length === 0) return
-        console.log("it works");
+        if (command.length === 0) return;
 
         // Handle any bug in commands
         try {
-            if (command in mapping) return mapping[command](message)
+            if (command in mapping) return mapping[command](message);
         } catch (error) {
             console.log(error);
             return tryToSend(msg.channel, ':bangbang: Erreur! Demande de l\'aide a un membre du staff ¯\\_(ツ)_/¯');

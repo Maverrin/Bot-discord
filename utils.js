@@ -7,11 +7,11 @@ const quotes = require('./quotes');
 
 module.exports = {
     
-    writeFile     : (absolutePath, str) => fs.writeFileSync(absolutePath, str),
-    tryToSend     : (channel, text) => {
-        if (channel.type != 'dm') channel.send(text || 'Vous devez spécifier un texte.')
+    writeFile: (absolutePath, str) => fs.writeFileSync(absolutePath, str),
+    tryToSend: (channel, text) => {
+        if (channel.type != 'dm') channel.send(text || 'Vous devez spécifier un texte.');
     },
-    tryToSendChannelId : (client, channelId, text) => {
+    tryToSendChannelId: (client, channelId, text) => {
 
         const channel = client.channels.cache.get(channelId);
         if (!channel) throw new Error('Channel ID not found: ' +  channelId);
@@ -29,17 +29,6 @@ module.exports = {
         return module.exports.getMemberCount(client, serverId).then(memberCount => {
             client.user.setActivity(memberCount + ' utilisateurs', {type: 'WATCHING'});
         });
-    },
-    sendEmbedMessage: (client, data, channelId = null) => {
-        const {title, author, description, color, footer} = data;
-    
-        const embed = new Discord.MessageEmbed();
-        if (title) embed.setTitle(title);
-        if (author) embed.setAuthor(author.name, author.iconUrl);
-        if (description) embed.setDescription(description);
-        if (color) embed.setColor(color);
-        if (footer) embed.setFooter(footer);
-
     },
     addQuote: (username, msgContent) => {
         // clean user name, so only first word is used.

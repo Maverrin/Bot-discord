@@ -20,5 +20,4 @@ module.exports = (text) => {
     if (firstWord in mapping) return mapping[firstWord];
 
     return `!link [ ${Object.keys(mapping).toString().replace(/,/g,' | ')} ]`;
-    // return `!link [ ${Object.keys(mapping).toString().replaceAll(',',' | ')} ]`;
 };

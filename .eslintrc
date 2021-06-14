@@ -1,0 +1,61 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "env": {
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "indent": [
+      "error",
+      4,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always",
+      {
+        "omitLastInOneLineBlock": true
+      }
+    ],
+    "comma-dangle": [
+      "off",
+      "always-multiline"
+    ],
+    "space-before-function-paren": [
+      "error",
+      "always"
+    ],
+    "valid-jsdoc": [
+      "error",
+      {
+        "requireReturn": false,
+        "prefer": {
+          "returns": "return"
+        }
+      }
+    ],
+    "require-jsdoc": "warn",
+    "no-var": "error",
+    "object-curly-spacing": [
+      "error",
+      "never"
+    ],
+    "key-spacing": [
+      "error",
+      {
+        "align": "colon"
+      }
+    ],
+    "no-constant-condition": 0
+  }
+}

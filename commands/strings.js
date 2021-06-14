@@ -27,20 +27,3 @@ Soit vous avez des statuts, soit vous n'en avez pas, aucun problème, mais pas d
 
 :military_helmet: **Attention**, lorsque vous commencé un nouveau projet avec des personnes que vous ne connaissez pas. On ne peut pas vous protéger contre la fraude et ou les dégats relationels individuels ou bien des entreprises. __Afin d'éviter ceci, le mieux est de faire un contrat signé entre les deux parties qui définit clairement les responsabilités, la possession et les termes de payement **avant** de commencer tout travail__.
 `;
-
-
-module.exports.formTemplate = `
-!rec offer
-title: Example title2
-about-us: test
-project: test
-project-status: commencé
-images: https://picsum.photos/200/300, https://picsum.photos/200/300
-contact: email@me.fr
-`;
-
-
-module.exports.previewFooter = `
-Pour editer l'offre, il suffit de refaire la commande [!rec offer] avec les nouvelles données.
-Si ce preview vous satisfait, utilisez la commande [!rec finish] pour sauvegarder et publier votre annonce. :)
-`;
