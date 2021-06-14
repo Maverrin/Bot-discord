@@ -1,12 +1,10 @@
 /* eslint-disable max-len */
 
-const Discord = require('discord.js');
 let fs = require('fs');
-const quotes = require('./quotes');
+const quotes = require('../data/quotes.json');
 
 
 module.exports = {
-    
     writeFile: (absolutePath, str) => fs.writeFileSync(absolutePath, str),
     tryToSend: (channel, text) => {
         if (channel.type != 'dm') channel.send(text || 'Vous devez spécifier un texte.');
@@ -33,35 +31,13 @@ module.exports = {
     addQuote: (username, msgContent) => {
         // clean user name, so only first word is used.
         // If the name has a space in it, it would not recognize it
-        // as only the first word of command is understood by bot
+        // as only the first word of command is understood by the bot
         username = username.split(' ')[0];
         if (quotes[username]) quotes[username].push(msgContent);
         else quotes[username] = [msgContent];
 
-        module.exports.writeFile('quotes.json', JSON.stringify(quotes));
+        module.exports.writeFile('data/quotes.json', JSON.stringify(quotes));
         
         console.log(`[QUOTE ADDED] A quote from ${username} has been saved`);
     },
-    // TODO Here is the actual offer mapping. The design part is to be done.
-    offerToEmbed: (offer, options = {}) => ({embed: {
-        title      : offer.title,
-        // Maybe use fields would make a better result
-        description: `
-            **Mapping et formatage à faire**
-            :singer: project - ${offer.project}
-            :footprints: project-status - ${offer['project-status']}
-            :military_helmet: contact - ${offer.contact}
-            ${offer.images.toString().replace(/,/, ', ')}
-          `,
-        // https://discord.js.org/#/docs/main/stable/class/MessageEmbed
-        // Doesn't work 
-        // image: {url: offer.images[0]},
-        // thumbnail: {url: offer.images[1]}
-        files: [
-            // {url: offer.images[0]},
-            // {url: offer.images[1]}
-        ],
-        color: process.env.COLOR_OFFER,
-        ...options
-    }})
 };

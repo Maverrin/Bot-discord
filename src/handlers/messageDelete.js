@@ -1,4 +1,4 @@
-const {tryToSend} = require('../utils')
+const {tryToSend} = require('../utils');
 
 module.exports = (msg) => tryToSend(msg.channel, {
     embed: {

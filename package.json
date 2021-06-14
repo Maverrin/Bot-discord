@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "start": "node index.js",
-    "start:dev": "nodemon index.js --ignore '*.json'"
+    "start": "node src",
+    "start:dev": "nodemon src/index.js --ignore '*.json'",
+    "lint": "eslint --fix src/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,8 @@
   "homepage": "https://github.com/Mawiedev/Bot-discord#readme",
   "dependencies": {
     "discord.js": "^12.5.3",
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "eslint": "^7.28.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

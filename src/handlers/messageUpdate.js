@@ -12,5 +12,5 @@ module.exports = (client, oldMsg, newMsg) => {
                 description: `**Ancien:** ${oldMsg.content} \n **Nouveau:** ${newMsg.content}`
             }
         }
-    )}
+        );}
 };

@@ -1,4 +1,4 @@
-const quotes = require('../quotes');
+const quotes = require('../../data/quotes.json');
 
 module.exports = (userName, msg) => {
     const userQuotes = quotes[userName];

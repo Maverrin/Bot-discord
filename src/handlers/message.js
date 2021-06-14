@@ -1,5 +1,5 @@
 const commands = require('../commands');
-const quotes = require('../quotes');
+const quotes = require('../../data/quotes.json');
 const {tryToSend} = require('../utils');
 
 // this variable is for the bot to not spam
