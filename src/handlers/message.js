@@ -1,11 +1,11 @@
 const commands = require('../commands');
 const quotes = require('../../data/quotes.json');
-const {tryToSend} = require('../utils');
+const { tryToSend } = require('../utils');
 
 // this variable is for the bot to not spam
 // the helperString message 
 let canSendHelp = true;
-const helperTimeout = 15*1000;
+const helperTimeout = 15 * 1000;
 
 module.exports = (client, msg) => {
     if (msg.author.bot) return;
@@ -13,11 +13,11 @@ module.exports = (client, msg) => {
     // ============================
     // VARIABLES
     // ============================
-    
-    const helperString = 
+
+    const helperString =
     {
         embed: {
-            title      : 'Mauvaise commande. Voici la liste des commandes possibles:',
+            title: 'Mauvaise commande. Voici la liste des commandes possibles:',
             description: `**!say [text]** -  Fait dire votre texte au bot.\n
             **!link [uefr | evan | cherno | ue | uol | a2a]**  -  Donne le lien vers les ressources prédéfinies.\n
             **![${Object.keys(quotes).toString().replace(/,/g, ' | ')}]**  -  Fait dire une phrase sauvegardée aléatoire de cette personne.\n
@@ -33,17 +33,17 @@ module.exports = (client, msg) => {
     // ----------------------------------
     if (msg.channel.type == 'text' && msg.content[0] == '!') {
         const mapping = {
-            say  : (text) => tryToSend(msg.channel, commands.say(text)),
-            link : (text) => tryToSend(msg.channel, commands.link(text)),
+            say: (text) => tryToSend(msg.channel, commands.say(text)),
+            link: (text) => tryToSend(msg.channel, commands.link(text)),
             quote: (userName) => tryToSend(msg.channel, commands.quote(userName, msg)),
-            add  : (messageId) => commands.add(client, messageId, msg)
-                .then(text => tryToSend(msg.channel, text))     
+            add: (messageId) => commands.add(client, messageId, msg)
+                .then(text => tryToSend(msg.channel, text))
                 .catch(err => tryToSend(msg.channel, `${messageId} not found :/`))
-    
+
         };
 
         const words = msg.content.split(' ');
-    
+
         const command = words.shift().substr(1);
         const message = words.join(' ');
         const quotedPersons = Object.keys(quotes);
@@ -74,11 +74,10 @@ module.exports = (client, msg) => {
     // ----------------------------------
     // DM MESSAGE HANDLING
     // ----------------------------------
-    if (msg.channel.type == 'dm')
-    {
+    if (msg.channel.type == 'dm') {
         const mapping = {
-            paid     : (text) => tryToSend(msg.channel, commands.paid(text, msg.author)),
-            unpaid   : (text) => tryToSend(msg.channel, commands.unpaid(text, msg.author)),
+            paid: (text) => tryToSend(msg.channel, commands.paid(text, msg.author)),
+            unpaid: (text) => tryToSend(msg.channel, commands.unpaid(text, msg.author)),
             freelance: (userName) => tryToSend(msg.channel, commands.freelance(userName, msg)),
         };
 
