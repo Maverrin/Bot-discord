@@ -4,10 +4,10 @@
   "description": "Bot discord for a specific server",
   "main": "index.js",
   "scripts": {
-    "test": "test",
     "start": "node src",
     "start:dev": "nodemon src/index.js --ignore '*.json'",
-    "lint": "eslint --fix src/**/*.js"
+    "test": "sh -c \"./node_modules/.bin/mocha --exit ./tests/src\"",
+    "lint": "sh -c \"./node_modules/.bin/mocha --fix src/**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -26,11 +26,12 @@
   "homepage": "https://github.com/Mawiedev/Bot-discord#readme",
   "dependencies": {
     "discord.js": "^12.5.3",
-    "dotenv": "^10.0.0",
-    "eslint": "^7.28.0",
-    "mocha": "^9.0.0"
+    "dotenv": "^10.0.0"
   },
   "devDependencies": {
+    "eslint": "^7.28.0",
+    "mocha": "^9.0.0",
+    "chai": "^4.3.4",
     "nodemon": "^2.0.7"
   }
 }
