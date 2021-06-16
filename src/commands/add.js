@@ -3,7 +3,6 @@ const quotes = require('../../data/quotes.json');
 
 module.exports = async (client, messageId, msg) => {
     const channels = client.guilds.cache.get(process.env.SERVER_ID).channels.cache;
-    const authorFullName = `${msg.author.username}#${msg.author.discriminator}`;
 
     // FIND MESSAGE
     const promises = [];
@@ -30,7 +29,7 @@ module.exports = async (client, messageId, msg) => {
     return {
         embed: {
             title      : foundMessage.content,
-            description: `*${foundMessageAuthor}* - Message rajouté par ${authorFullName}`,
+            description: `*${foundMessageAuthor}* - Message rajouté par ${msg.author.tag}`,
             color      : process.env.COLOR_NEW_QUOTE,
             channel    : msg.channel
         }
