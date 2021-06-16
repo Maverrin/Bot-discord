@@ -1,39 +1,47 @@
 module.exports = async (msg, user) => {
-    // TODO
-    console.log('non payé!');
+    const dmChannel = msg.channel;
     const questions = [
-        "**Ajoute un titre qui définit clairement ce que tu recherches.**\nExemple : Modélisateur 3D pour un projet de mod",
-        "**Ajoute une description détaillée du projet et ce dont tu as besoins.**",
-        "**Comment peut-on te contacter ?**",
-        "**C'est presque fini! Regarde ton message afin de vérifier qu'il soit bon.**"
+        {
+            "question": "Ajoute un titre qui définit clairement ce que tu recherches",
+        },
+        {
+            "question": "Ajoute une description détaillée du projet et ce dont tu as besoin",
+        },
+        {
+            "question": "Comment peut on te contacter?",
+        },
+        {
+            "question": "Presque fini! Regarde ton poste et fais en sorte que ça soit juste.",
+            "1": "Envoyer mon poste",
+            "2": "Recommencer"
+        }
     ]
 
-    const applying = {};
+    const applying = [];
+    console.log(`${msg.author.tag} a commencé a postuler.`);
 
-    try {
-        console.log(`${msg.author.tag} a commencé a postuler.`);
-        for (let i = 0, cancel = false; i < questions.length && cancel === false; i++) {
-            await msg.channel.send(questions[i]);
-            await msg.channel.awaitMessages(m => m.author.id === msg.author.id, { max: 1, time: 300000, errors: ["time"] })
-                .then(async (collected) => {
-                    if (collected.first().content.toLowerCase() === "!stop") {
-                        await msg.channel.send("**Application arrêté.**");
-                        cancel = true;
+    for (let i = 0, cancel = false; i < questions.length && cancel === false; i++) {
+        await dmChannel.send(questions[i].question);
+        console.log(questions[i].question);
+        try {
+            const collected = await dmChannel.awaitMessages(m => m.author.id === msg.author.id, { max: 1, time: 5 * 60 * 1000, errors: ['time'] });
 
-                        console.log(`${msg.author.tag} a stopper la création d'une annonce.`);
-                    }
-                }).catch(async () => {
-                    await msg.channel.send("**L'annonce a été mis en arrêt suite a un délai trop long.**");
-                    cancel = true;
+            applying.push(collected.last().content);
+            console.log(applying[i]);
+            if (collected.last().content.toLowerCase() === '!stop') {
+                await dmChannel.send('**Application arrêté.**');
+                console.log(`${msg.author.tag} a stopper la création d'une annonce.`);
+                cancel = true;
+            }
 
-                    console.log(`${msg.author.tag} : délai trop long.`);
-                });
+            // Last question
+            if (i === questions.length - 1) optionChosen = collected.last().content;
+        } catch (error) {
+            await dmChannel.send('**L\'annonce a été mis en arrêt suite a un délai trop long.**');
+            cancel = true;
+            console.log(`${msg.author.tag} : délai trop long.`);
         }
-
-        await msg.channel.send("Message qui change en fonction d'une réponse (choisi une option : 1 / 2)");
-
-        console.log(`${msg.author.tag} a fini de créer son annonce.`);
-    } catch (err) {
-        console.error(err);
     }
+
+    console.log(`${msg.author.tag} a fini de créer son annonce.`);
 };

@@ -20,7 +20,7 @@ module.exports = (client, msg) => {
     // ----------------------------------
     // MESSAGES IN DISCORD SERVER
     // ----------------------------------
-    if (msg.channel.type == 'text' && msg.content[0] == '!') {
+    if (msg.channel.type === 'text' && msg.content[0] == '!') {
         const mapping = {
             say: (text) => tryToSend(msg.channel, commands.say(text)),
             link: (text) => tryToSend(msg.channel, commands.link(text)),
@@ -56,7 +56,7 @@ module.exports = (client, msg) => {
     // ----------------------------------
     // MESSAGE IN DM
     // ----------------------------------
-    if (msg.channel.type == 'dm') {
+    if (msg.channel.type === 'dm') {
         const mapping = {
             paid: (text) => tryToSend(msg.channel, commands.paid(text, msg.author)),
             unpaid: (text) => tryToSend(msg.channel, commands.unpaid(msg, msg.author)),
