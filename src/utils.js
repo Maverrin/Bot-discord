@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
-
 let fs = require('fs');
 const quotes = require('../data/quotes.json');
+const Discord = require('discord.js');
 
 
 module.exports = {
@@ -10,7 +10,6 @@ module.exports = {
         if (channel.type != 'dm') channel.send(text || 'Vous devez spécifier un texte.');
     },
     tryToSendChannelId: (client, channelId, text) => {
-
         const channel = client.channels.cache.get(channelId);
         if (!channel) throw new Error('Channel ID not found: ' +  channelId);
 
@@ -40,4 +39,14 @@ module.exports = {
         
         console.log(`[QUOTE ADDED] A quote from ${username} has been saved`);
     },
+    advertToEmbed: (advert) => {
+        const embed = new Discord.MessageEmbed();
+
+        // TODO je suis dessus
+        // for (key in advert) {
+          
+        // }
+
+        return embed;
+    }
 };

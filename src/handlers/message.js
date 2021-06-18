@@ -1,7 +1,7 @@
 const commands = require('../commands');
 const quotes = require('../../data/quotes.json');
-const { tryToSend } = require('../utils');
-const { helperMessage, errorMessage } = require('../../data/strings');
+const {tryToSend} = require('../utils');
+const {helperMessage, errorMessage} = require('../../data/strings');
 
 // this variable is for the bot to not spam
 // the helperMessage message 
@@ -22,10 +22,10 @@ module.exports = (client, msg) => {
     // ----------------------------------
     if (msg.channel.type === 'text' && msg.content[0] == '!') {
         const mapping = {
-            say: (text) => tryToSend(msg.channel, commands.say(text)),
-            link: (text) => tryToSend(msg.channel, commands.link(text)),
+            say  : (text) => tryToSend(msg.channel, commands.say(text)),
+            link : (text) => tryToSend(msg.channel, commands.link(text)),
             quote: (userName) => tryToSend(msg.channel, commands.quote(userName, msg)),
-            add: (messageId) => commands.add(client, messageId, msg)
+            add  : (messageId) => commands.add(client, messageId, msg)
                 .then(text => tryToSend(msg.channel, text))
                 .catch(err => tryToSend(msg.channel, `\`${messageId}\` not found :/`))
         };
@@ -58,9 +58,9 @@ module.exports = (client, msg) => {
     // ----------------------------------
     if (msg.channel.type === 'dm') {
         const mapping = {
-            paid: (text) => tryToSend(msg.channel, commands.paid(text, msg.author)),
-            unpaid: (text) => tryToSend(msg.channel, commands.unpaid(msg, msg.author)),
-            freelance: (text) => tryToSend(msg.channel, commands.freelance(text, msg.author)),
+            paid     : () => commands.paid(client, msg, msg.author),
+            unpaid   : () => commands.unpaid(client, msg, msg.author),
+            freelance: () => commands.freelance(client, msg, msg.author),
         };
 
         // Handle any bug in commands

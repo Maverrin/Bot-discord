@@ -33,13 +33,15 @@ Soit vous avez des statuts, soit vous n'en avez pas, aucun problème, mais pas d
 
 module.exports.helperMessage = {embed: {
     title      : 'Mauvaise commande. Voici la liste des commandes possibles:',
-    description: `**!say [text]** -  Fait dire votre texte au bot.\n
+    description: `
+      **!say [text]** -  Fait dire votre texte au bot.\n
       **!link [uefr | evan | cherno | ue | uol | a2a]**  -  Donne le lien vers les ressources prédéfinies.\n
       **![${Object.keys(quotes).toString().replace(/,/g, ' | ')}]**  -  Fait dire une phrase sauvegardée aléatoire de cette personne.\n
       **!add [messageID]**  -  Ajoute une phrase pour la commande ![Pseudo].\n
       **!impaye**  -  Créé une annonce de recrutement non payé.\n
       **!paye**  -  Créé une annonce de recrutement payé.\n
-      **!service**  -  Crée une annonce de recrutement pour proposer ses services (freelance).\n`
+      **!service**  -  Crée une annonce de recrutement pour proposer ses services (freelance).\n
+      `
 }};
 
 module.exports.errorMessage = ':bangbang: Erreur! Demande de l\'aide a un membre du staff ¯\\_(ツ)_/¯';
