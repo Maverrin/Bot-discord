@@ -1,6 +1,7 @@
 const {tryToSendChannelId} = require('../utils');
 
 module.exports = (client, oldMsg, newMsg) => {
+    if (newMsg.channel.type === 'dm') return;
     if(newMsg.content != oldMsg.content) {
         tryToSendChannelId(client, process.env.LOG_CHANNEL_ID, { 
             embed: {
