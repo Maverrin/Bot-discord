@@ -42,10 +42,20 @@ module.exports = {
     advertToEmbed: (advert) => {
         const embed = new Discord.MessageEmbed();
 
-        // TODO je suis dessus
-        // for (key in advert) {
+        const mapping = {
+            title      : (text) => embed.setTitle(text),
+            description: (text) => embed.setDescription(text),
+            contact    : (text) => embed.addField('Contact', text),
+            freelance  : (text) => embed.addField('Freelancer', text),
+            studio     : (text) => embed.addField('Studio', text),
+        };
+
+        for (const key in advert) {
+            if (['finish'].includes(key)) continue;
           
-        // }
+            if (key in mapping) mapping[key](advert[key]);
+            else console.log(`'${key}' mapping not found in advertToEmbed()`);
+        }
 
         return embed;
     }

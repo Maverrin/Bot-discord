@@ -17,7 +17,7 @@ module.exports = async (client, msg, user) => {
         },
         {
             step    : 'finish',
-            question: 'Presque fini! Regarde ton poste et fais en sorte que ça soit juste.', // + message example
+            question: 'Presque fini! Regarde ton poste et fais en sorte que ça soit juste.', 
             options : [
                 '1. Envoyer mon poste', 
                 '2. Recommencer',
@@ -25,7 +25,7 @@ module.exports = async (client, msg, user) => {
         }
     ];
 
-    const answers = [];
+    const answers = {};
 
     console.log(`${msg.author.tag} a commencé a postuler.`);
 
@@ -40,6 +40,7 @@ module.exports = async (client, msg, user) => {
             }
         }
         await dmChannel.send(questionMsg);
+        if (questions[i].step === 'finish') await dmChannel.send(advertToEmbed(answers));
         
         try {
             // Fetch message
@@ -56,7 +57,8 @@ module.exports = async (client, msg, user) => {
 
             // Check if content is the number of an option
             if (hasOptions) {
-                if (msgContent.length > 1 || /[\D]/.test(msgContent[0]) || (msgContent > questions[i].options.length)) {
+                // Check that it is a number in the question number's range 
+                if (msgContent.length > 1 || !/[1-9]/.test(msgContent[0]) || (msgContent > questions[i].options.length)) {
                     await dmChannel.send('**Veuillez tapper le numéro de l\'option choisie**');
                     i--;
                     continue;
@@ -64,22 +66,22 @@ module.exports = async (client, msg, user) => {
             }
 
             // Save response
-            const answer = {[questions[i].step]: msgContent};
-            answers.push(answer);
-            console.log(answer);
+            answers[questions[i].step] = msgContent;
+            console.log(`${msg.author.tag} - ${questions[i].step}: ${msgContent}`);
 
         } catch (error) {
-            await dmChannel.send('**L\'annonce a été mis en arrêt suite a un délai trop long.**');
             cancel = true;
-            console.log(`${msg.author.tag} : délai trop long.`);
+            await dmChannel.send('**L\'annonce a été mis en arrêt suite a un délai trop long.**');
+            console.log(`${msg.author.tag}: délai trop long.`);
         }
 
         // Send advert
-        if (answers.finish === 1) {
-            tryToSendChannelId(client, process.env.ADVERT_CHANNEL_ID, advertToEmbed(answers));
-        } 
-        else if (answers.finish === 2) {
+        if (answers.finish == 1) tryToSendChannelId(client, process.env.ADVERT_CHANNEL_ID, advertToEmbed(answers)); 
+        // Restart
+        if (answers.finish == 2) {
+            answers.finish = null;
             i = -1;
+            continue;
         }
     }
 
