@@ -38,9 +38,9 @@ module.exports.helperMessage = {embed: {
       **!link [uefr | evan | cherno | ue | uol | a2a]**  -  Donne le lien vers les ressources prédéfinies.\n
       **![${Object.keys(quotes).toString().replace(/,/g, ' | ')}]**  -  Fait dire une phrase sauvegardée aléatoire de cette personne.\n
       **!add [messageID]**  -  Ajoute une phrase pour la commande ![Pseudo].\n
-      **!impaye**  -  Créé une annonce de recrutement non payé.\n
-      **!paye**  -  Créé une annonce de recrutement payé.\n
-      **!service**  -  Crée une annonce de recrutement pour proposer ses services (freelance).\n
+      **!unpaid**  -  Créé une annonce de recrutement non payé. __Envoi la commande en MP au bot__.\n
+      **!paid**  -  Créé une annonce de recrutement payé.__Envoi la commande en MP au bot__.\n
+      **!freelance**  -  Crée une annonce de recrutement pour proposer ses services (freelance).__Envoi la commande en MP au bot__.\n
       `
 }};
 

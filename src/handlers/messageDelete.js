@@ -1,9 +1,9 @@
-const {tryToSend} = require('../utils');
+const {tryToSendChannelId} = require('../utils');
 
-module.exports = (msg) => {
+module.exports = (client, msg) => {
     if (msg.channel.type === 'dm') return;
   
-    tryToSend(msg.channel, {
+    tryToSendChannelId(client, process.env.LOG_CHANNEL_ID, { 
         embed: {
             title : 'Message supprimé:',
             author: {

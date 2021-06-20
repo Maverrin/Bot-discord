@@ -83,7 +83,7 @@ module.exports = async (client, msg) => {
         if (answers.finish == 1) {
             tryToSendChannelId(
                 client,
-                process.env.ADVERT_CHANNEL_ID,
+                process.env.ADVERT_UNPAID_ID,
                 advertToEmbedUnpaid(answers, msg.author)
             );
         }

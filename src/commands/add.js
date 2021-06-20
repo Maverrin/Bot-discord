@@ -11,21 +11,26 @@ module.exports = async (client, messageId, msg) => {
         // channel[1] is the actual channel object
         channel = channel[1];
 
+        console.log(channel.name);
+
         // Try to fetch in each text channel
         if (channel.type === 'text') promises.push(channel.messages.fetch(messageId));
     }
 
     const foundMessage = await firstSuccess(promises);
 
-    let foundMessageAuthor = foundMessage.author.username;
+    let foundMessageAuthor = foundMessage.author.username.split(' ')[0];
     foundMessageAuthor = foundMessageAuthor[0].toUpperCase() + foundMessageAuthor.slice(1);
 
     // CHECK IF ALREADY ADDED
-    const quoteAlreadySaved = quotes[foundMessage.author.username].includes(foundMessage.content);
+    if (!quotes[foundMessageAuthor]) {
+        quotes[foundMessageAuthor] = [];
+    }
+    const quoteAlreadySaved = quotes[foundMessageAuthor].includes(foundMessage.content);
     if (quoteAlreadySaved) return 'The quote was already saved.';
 
     // SAVE QUOTE
-    addQuote(foundMessage.author.username, foundMessage.content);
+    addQuote(foundMessageAuthor, foundMessage.content);
     return {
         embed: {
             title      : foundMessage.content,
