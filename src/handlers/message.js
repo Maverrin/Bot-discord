@@ -22,12 +22,16 @@ module.exports = (client, msg) => {
     // ----------------------------------
     if (msg.channel.type === 'text' && msg.content[0] == '!') {
         const mapping = {
-            say  : (text) => tryToSend(msg.channel, commands.say(text)),
+            say: (text) => {
+                if(msg.member.roles.cache.has(role => role.id === process.env.ROLE_ONLY.toString())) {
+                    tryToSend(msg.channel, commands.say(text));   
+                }
+            },
             link : (text) => tryToSend(msg.channel, commands.link(text)),
             quote: (userName) => tryToSend(msg.channel, commands.quote(userName, msg)),
             add  : (messageId) => commands.add(client, messageId, msg)
                 .then(text => tryToSend(msg.channel, text))
-                .catch(() => tryToSend(msg.channel, `\`${messageId}\` not found :/`))
+                .catch(() => tryToSend(msg.channel, `\`${messageId}\` pas trouvé :/`))
         };
 
         const quotedPersons = Object.keys(quotes);
