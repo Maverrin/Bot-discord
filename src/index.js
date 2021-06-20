@@ -9,14 +9,16 @@ if (process.env.ENV === 'PROD') {
     let fs = require('fs');
     let log_file = fs.createWriteStream('./debug.log', {flags: 'a'});
     let log_stdout = process.stdout;
-    console.log = (text) => { 
+    console.log = (text) => {
         const now = new Date().toISOString();
-        const date = now.substr(2,8)+' '+now.substr(11,8);
+        const date = now.substr(2, 8) + ' ' + now.substr(11, 8);
         const string = `[${date}] ${text}\n`;
         log_file.write(string);
         log_stdout.write(string);
     };
 }
+
+client.inProcessAdvert = {};
 
 // All DiscordJs events here: https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-channelCreate
 client.on('ready', () => handlers.ready(client));

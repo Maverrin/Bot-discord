@@ -27,7 +27,7 @@ module.exports = (client, msg) => {
             quote: (userName) => tryToSend(msg.channel, commands.quote(userName, msg)),
             add  : (messageId) => commands.add(client, messageId, msg)
                 .then(text => tryToSend(msg.channel, text))
-                .catch(err => tryToSend(msg.channel, `\`${messageId}\` not found :/`))
+                .catch(() => tryToSend(msg.channel, `\`${messageId}\` not found :/`))
         };
 
         const quotedPersons = Object.keys(quotes);
