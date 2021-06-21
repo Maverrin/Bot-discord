@@ -3,8 +3,7 @@ const quotes = require('../../data/quotes.json');
 module.exports = () => {
     const pseudos = Object.keys(quotes);
     let pseudoList = '';
-
-    pseudos.forEach(pseudo => pseudoList += pseudo+'\n');
+    pseudos.sort().forEach(pseudo => pseudoList += pseudo+'\n');
 
     return {
         embed: {

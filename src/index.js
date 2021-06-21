@@ -15,7 +15,11 @@ if (process.env.ENV === 'PROD') {
         const string = `[${date}] ${text}\n`;
         log_file.write(string);
         log_stdout.write(string);
+
     };
+    
+    //Delete each month 2628000000
+    setInterval(() => fs.truncate('./debug.log', 0, ()=>console.log('[LOGS DELETED]')), 1209600000); 
 }
 
 client.inProcessAdvert = {};

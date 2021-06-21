@@ -16,6 +16,7 @@ module.exports = (client, msg) => {
 
     if (msg.author.bot) return;
     if (command.length === 0) return;
+    if (/^!{2,}/.test(msg.content)) return;
 
     // ----------------------------------
     // MESSAGES IN DISCORD SERVER

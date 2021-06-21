@@ -11,8 +11,6 @@ module.exports = async (client, messageId, msg) => {
         // channel[1] is the actual channel object
         channel = channel[1];
 
-        console.log(channel.name);
-
         // Try to fetch in each text channel
         if (channel.type === 'text') promises.push(channel.messages.fetch(messageId));
     }
