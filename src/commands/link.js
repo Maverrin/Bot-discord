@@ -1,7 +1,6 @@
 module.exports = (text) => {
 
     const firstWord = text.split(' ')[0];
-    console.log(firstWord);
     const mapping = {
         //UE FR YT channel
         uefr  : 'https://www.youtube.com/channel/UCVo4TMKRmdiMYHdMaPWbPNA',
