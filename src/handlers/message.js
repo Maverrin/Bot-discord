@@ -49,7 +49,7 @@ module.exports = (client, msg) => {
         msg.delete();
 
         // Unknown command, send help message
-        if (!(command in mapping) && !quotedPersons.includes(command) && canSendHelp === true || command === 'help') {
+        if (!(command in mapping) && !quotedPersons.includes(command) && canSendHelp === true || command === 'bidibip') {
             canSendHelp = false;
             setTimeout(() => canSendHelp = true, helperTimeout);
             msg.author.send(helperMessage);
