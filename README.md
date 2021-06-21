@@ -1,4 +1,4 @@
-# Bot discord [WIP]
+# Bot discord
 
 ## Install and run
 
@@ -10,14 +10,15 @@ Rename `.env.template` to `.env` and put your Discord server [tokens/keys](https
 
 The bot should be running on your server
 
-## TODO
+## Command list
 
-Bot discord for a specific server
+You can run these commands with the bot : 
 
-To do:
-
-* Série de question !freelance
-* Série de question !paid
-* Série de question !unpaid
-
-A translation will be done later.
+* Create an ad with `!freelance` 
+* Create an ad with `!unpaid` 
+* Create an ad with `!paid` 
+* Create an ad with `!freelance` 
+* Create a quote with `!add [messageId]`
+* Say a random quote from this person `![person]`
+* List all persons usable for the quote `!quotes` 
+* List all linked reference `!link`
