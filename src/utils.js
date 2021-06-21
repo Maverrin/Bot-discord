@@ -43,6 +43,8 @@ module.exports = {
     advertToEmbedUnpaid: (advert, user) => {
         const embed = new Discord.MessageEmbed();
 
+        embed.setColor(process.env.COLOR_UNPAID);
+
         const mapping = {
             title      : (text) => embed.setTitle(text),
             description: (text) => embed.setDescription(text),
@@ -59,11 +61,14 @@ module.exports = {
         return {
             content: `Publié par : <@${user.id}>`,
             embed
+
         };
     },
 
     advertToEmbedPaid: (advert, user) => {
         const embed = new Discord.MessageEmbed();
+
+        embed.setColor(process.env.COLOR_PAID);
 
         const mapping = {
             role  : () => embed.setTitle(`${advert.role} Chez ${advert.companyName}`),
@@ -95,6 +100,8 @@ module.exports = {
     },
     advertToEmbedFreelance: (advert, user) => {
         const embed = new Discord.MessageEmbed();
+
+        embed.setColor(process.env.COLOR_FREELANCE);
 
         const mapping = {
             title      : (text) => embed.setTitle(text),
