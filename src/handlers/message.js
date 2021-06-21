@@ -6,7 +6,7 @@ const {helperMessage, errorMessage} = require('../../data/strings');
 // this variable is for the bot to not spam
 // the helperMessage message 
 let canSendHelp = true;
-const helperTimeout = 15 * 1000;
+const helperTimeout = 30 * 1000;
 // const errorMessage = 
 
 module.exports = (client, msg) => {
@@ -49,10 +49,10 @@ module.exports = (client, msg) => {
         msg.delete();
 
         // Unknown command, send help message
-        if (!(command in mapping) && !quotedPersons.includes(command) && canSendHelp === true) {
+        if (!(command in mapping) && !quotedPersons.includes(command) && canSendHelp === true || command === 'help') {
             canSendHelp = false;
             setTimeout(() => canSendHelp = true, helperTimeout);
-            return tryToSend(msg.channel, helperMessage);
+            msg.author.send(helperMessage);
         }
 
         // in this context, the command is a pseudo

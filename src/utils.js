@@ -5,10 +5,8 @@ const Discord = require('discord.js');
 
 
 module.exports = {
-    writeFile: (absolutePath, str) => fs.writeFileSync(absolutePath, str),
-    tryToSend: (channel, text) => {
-        if (channel.type != 'dm') channel.send(text || 'Vous devez spécifier un texte.');
-    },
+    writeFile         : (absolutePath, str) => fs.writeFileSync(absolutePath, str),
+    tryToSend         : (channel, text) => channel.send(text || 'Vous devez spécifier un texte.'),
     tryToSendChannelId: (client, channelId, text) => {
         const channel = client.channels.cache.get(channelId);
         if (!channel) throw new Error('Channel ID not found: ' + channelId);
