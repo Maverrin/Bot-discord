@@ -1,5 +1,3 @@
-const quotes = require('./quotes.json');
-
 // ============================
 // LONG MESSAGE STRINGS
 // ============================
@@ -35,7 +33,8 @@ module.exports.helperMessage = {embed: {
     title      : 'Mauvaise commande. Voici la liste des commandes possibles:',
     description: `
       **!link [uefr | evan | cherno | ue | uol | a2a]**  -  Donne le lien vers les ressources prédéfinies.\n
-      **![Nogitsu | Spinker | Jogoia]**  -  Fait dire une phrase sauvegardée aléatoire de cette personne.\n
+      **!quotes**  -  Liste les pseudos qui ont des quotes.\n
+      **![pseudo]**  -  Fait dire une phrase sauvegardée aléatoire de cette personne.\n
       **!add [messageID]**  -  Ajoute une phrase pour la commande ![Pseudo].\n
       **!unpaid**  -  Créé une annonce de recrutement non payé. __Envoi la commande en MP au bot__.\n
       **!paid**  -  Créé une annonce de recrutement payé.__Envoi la commande en MP au bot__.\n

@@ -5,5 +5,6 @@ module.exports = {
     link     : require('./link'),
     paid     : require('./paid'),
     quote    : require('./quote'),
+    quotes   : require('./quotes'),
     unpaid   : require('./unpaid'),
 };

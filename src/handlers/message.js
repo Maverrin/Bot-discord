@@ -11,7 +11,7 @@ const helperTimeout = 15 * 1000;
 
 module.exports = (client, msg) => {
     const words = msg.content.split(' ');
-    const command = words.shift().substr(1);
+    const command = words.shift().substr(1).toLowerCase();
     const message = words.join(' ');
 
     if (msg.author.bot) return;
@@ -22,25 +22,29 @@ module.exports = (client, msg) => {
     // ----------------------------------
     if (msg.channel.type === 'text' && msg.content[0] == '!') {
         const mapping = {
-            say: (text) => {
+            link  : (text) => tryToSend(msg.channel, commands.link(text)),
+            quote : (userName) => tryToSend(msg.channel, commands.quote(userName, msg)),
+            quotes: () => tryToSend(msg.channel, commands.quotes()),
+            say   : (text) => {
                 if(msg.member.roles.cache.has(process.env.ROLE_ONLY)) {
                     tryToSend(msg.channel, commands.say(text));   
                 }
             },
-            link : (text) => tryToSend(msg.channel, commands.link(text)),
-            quote: (userName) => tryToSend(msg.channel, commands.quote(userName, msg)),
-            add  : (messageId) => {
+            add: (messageId) => {
                 if(msg.member.roles.cache.has(process.env.ROLE_ONLY)) {
                     commands.add(client, messageId, msg)
                         .then(text => tryToSend(msg.channel, text))
-                        .catch(() => tryToSend(msg.channel, `\`${messageId}\` pas trouvé :/`));  
+                        .catch(err => {
+                            console.log(err);
+                            tryToSend(msg.channel, `\`${messageId}\` pas trouvé :/`);
+                        });  
                 }
              
             }
             
         };
 
-        const quotedPersons = Object.keys(quotes);
+        const quotedPersons = Object.keys(quotes).map(pseudo => pseudo.toLowerCase());
 
         msg.delete();
 
