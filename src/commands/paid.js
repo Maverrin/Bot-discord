@@ -186,7 +186,10 @@ module.exports = async (client, msg, user) => {
                 }
 
                 // Send advert
-                if (answers.finish == 1) tryToSendChannelId(client, process.env.ADVERT_PAID_ID, advertToEmbedPaid(answers, user));
+                if (answers.finish == 1) {
+                    tryToSendChannelId(client, process.env.ADVERT_PAID_ID, advertToEmbedPaid(answers, user));
+                    tryToSendChannelId(client, process.env.SHARED, advertToEmbedPaid(answers, user));
+                }
                 if (answers.finish == 2) {
                     answers.finish = null;
                     x = -1;
@@ -261,7 +264,10 @@ module.exports = async (client, msg, user) => {
         }
 
         // Send advert
-        if (answers.finish == 1) tryToSendChannelId(client, process.env.ADVERT_PAID_ID, advertToEmbedPaid(answers, user));
+        if (answers.finish == 1){
+            tryToSendChannelId(client, process.env.ADVERT_PAID_ID, advertToEmbedPaid(answers, user));
+            tryToSendChannelId(client, process.env.SHARED, advertToEmbedPaid(answers, user));
+        } 
         if (answers.finish == 2) {
             answers.finish = null;
             i = -1;

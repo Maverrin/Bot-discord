@@ -128,7 +128,10 @@ module.exports = async (client, msg, user) => {
         }
 
         // Send advert
-        if (answers.finish == 1) tryToSendChannelId(client, process.env.ADVERT_FREELANCE_ID, advertToEmbedFreelance(answers, user));
+        if (answers.finish == 1){
+            tryToSendChannelId(client, process.env.ADVERT_FREELANCE_ID, advertToEmbedFreelance(answers, user));
+            tryToSendChannelId(client, process.env.SHARED, advertToEmbedFreelance(answers, user));
+        } 
         if (answers.finish == 2) {
             answers.finish = null;
             i = -1;

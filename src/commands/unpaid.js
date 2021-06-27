@@ -86,6 +86,11 @@ module.exports = async (client, msg) => {
                 process.env.ADVERT_UNPAID_ID,
                 advertToEmbedUnpaid(answers, msg.author)
             );
+            tryToSendChannelId(
+                client,
+                process.env.SHARED,
+                advertToEmbedUnpaid(answers, msg.author)
+            );
         }
         // Restart
         if (answers.finish == 2) {
