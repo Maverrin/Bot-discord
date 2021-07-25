@@ -24,7 +24,7 @@ module.exports = (client, msg) => {
     if (msg.channel.type === 'text' && msg.content[0] == '!') {
         const mapping = {
             link   : (text) => tryToSend(msg.channel, commands.link(text)),
-            bidibip: () => tryToSend(msg.channel, commands.bidibip()),
+            bidibip: () => tryToSend(msg.channel, commands.bidibip),
             quote  : (userName) => tryToSend(msg.channel, commands.quote(userName, msg)),
             quotes : () => tryToSend(msg.channel, commands.quotes()),
             say    : (text) => {
