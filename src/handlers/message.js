@@ -1,12 +1,12 @@
 const commands = require('../commands');
 const quotes = require('../../data/quotes.json');
 const {tryToSend} = require('../utils');
-const {helperMessage, errorMessage} = require('../../data/strings');
+const {errorMessage} = require('../../data/strings');
 
 // this variable is for the bot to not spam
 // the helperMessage message 
-let canSendHelp = true;
-const helperTimeout = 30 * 1000;
+// let canSendHelp = true;
+// const helperTimeout = 30 * 1000;
 // const errorMessage = 
 
 module.exports = (client, msg) => {
@@ -23,10 +23,11 @@ module.exports = (client, msg) => {
     // ----------------------------------
     if (msg.channel.type === 'text' && msg.content[0] == '!') {
         const mapping = {
-            link  : (text) => tryToSend(msg.channel, commands.link(text)),
-            quote : (userName) => tryToSend(msg.channel, commands.quote(userName, msg)),
-            quotes: () => tryToSend(msg.channel, commands.quotes()),
-            say   : (text) => {
+            link   : (text) => tryToSend(msg.channel, commands.link(text)),
+            bidibip: () => tryToSend(msg.channel, commands.bidibip()),
+            quote  : (userName) => tryToSend(msg.channel, commands.quote(userName, msg)),
+            quotes : () => tryToSend(msg.channel, commands.quotes()),
+            say    : (text) => {
                 if(msg.member.roles.cache.has(process.env.ROLE_ONLY)) {
                     tryToSend(msg.channel, commands.say(text));   
                 }
@@ -50,11 +51,11 @@ module.exports = (client, msg) => {
         msg.delete();
 
         // Unknown command, send help message
-        if (canSendHelp === true || command === 'bidibip') {
-            canSendHelp = false;
-            setTimeout(() => canSendHelp = true, helperTimeout);
-            msg.author.send(helperMessage);
-        }
+        // if (canSendHelp === true || command === 'bidibip') {
+        //     canSendHelp = false;
+        //     setTimeout(() => canSendHelp = true, helperTimeout);
+        //     msg.author.send(helperMessage);
+        // }
 
         // in this context, the command is a pseudo
         if (quotedPersons.includes(command)) return mapping.quote(command);
