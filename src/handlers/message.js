@@ -50,7 +50,7 @@ module.exports = (client, msg) => {
         msg.delete();
 
         // Unknown command, send help message
-        if (!(command in mapping) && !quotedPersons.includes(command) && canSendHelp === true || command === 'bidibip') {
+        if (canSendHelp === true || command === 'bidibip') {
             canSendHelp = false;
             setTimeout(() => canSendHelp = true, helperTimeout);
             msg.author.send(helperMessage);
@@ -71,7 +71,7 @@ module.exports = (client, msg) => {
     // ----------------------------------
     // MESSAGE IN DM
     // ----------------------------------
-    if (msg.channel.type === 'dm') {
+    if (msg.channel.type === 'dm' && msg.member.roles.cache.has(process.env.ROLE_MEMBER)) {
         const mapping = {
             paid     : () => commands.paid(client, msg, msg.author),
             unpaid   : () => commands.unpaid(client, msg, msg.author),
