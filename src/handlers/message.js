@@ -2,6 +2,7 @@ const commands = require('../commands');
 const quotes = require('../../data/quotes.json');
 const {tryToSend} = require('../utils');
 const {errorMessage} = require('../../data/strings');
+const {Guild} = require('discord.js');
 
 // this variable is for the bot to not spam
 // the helperMessage message 
@@ -72,7 +73,9 @@ module.exports = (client, msg) => {
     // ----------------------------------
     // MESSAGE IN DM
     // ----------------------------------
-    if (msg.channel.type === 'dm' && msg.member.roles.cache.has(process.env.ROLE_MEMBER)) {
+    
+    const server = client.guilds.cache.get(process.env.SERVER_ID);
+    if (msg.channel.type === 'dm' && server.member(msg.author.id) && server.members.cache.get(msg.author.id).roles.cache.has(process.env.ROLE_MEMBER)){
         const mapping = {
             paid     : () => commands.paid(client, msg, msg.author),
             unpaid   : () => commands.unpaid(client, msg, msg.author),
