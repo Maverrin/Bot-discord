@@ -5,4 +5,5 @@ module.exports = {
     message          : require('./message'),
     guildMemberAdd   : require('./guildMemberAdd'),
     guildMemberRemove: require('./guildMemberRemove'),
+    voiceStateUpdate : require('./voiceStateUpdate')
 };
