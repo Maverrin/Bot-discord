@@ -32,5 +32,6 @@ client.on('guildMemberRemove', member => handlers.guildMemberRemove(client));
 client.on('messageDelete', msg => handlers.messageDelete(client, msg));
 client.on('messageUpdate', (oldMsg, newMsg) => handlers.messageUpdate(client, oldMsg, newMsg));
 client.on('message', msg => handlers.message(client, msg));
+client.on('voiceStateUpdate', (oldState, newState) => handlers.voiceStateUpdate(client, oldState, newState));
 
 client.login(process.env.TOKEN);
